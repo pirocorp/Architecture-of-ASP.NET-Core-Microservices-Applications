@@ -59,7 +59,8 @@
 
             if (!result.Succeeded)
             {
-                return BadRequest(result);
+                var x = BadRequest(result);
+                return x;
             }
 
             var user = result.Data;
