@@ -1,5 +1,7 @@
 ﻿namespace CarRentalSystem.Common.Infrastructure
 {
+    using System;
+    using System.Reflection;
     using System.Text;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
@@ -7,6 +9,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
+    using Model;
     using Services.Identity;
     using Swagger;
 
@@ -23,6 +26,7 @@
                 .AddDatabase<TDbContext>(configuration)
                 .AddApplicationSettings(configuration)
                 .AddTokenAuthentication(configuration)
+                .AddAutoMapperProfile(Assembly.GetCallingAssembly())
                 .AddControllers();
 
             services
@@ -103,5 +107,14 @@
 
             return services;
         }
+
+        public static IServiceCollection AddAutoMapperProfile(
+            this IServiceCollection services,
+            Assembly assembly)
+            => services
+                .AddAutoMapper(
+                    (_, config) => config
+                        .AddProfile(new MappingProfile(assembly)),
+                    Array.Empty<Assembly>());
     }
 }

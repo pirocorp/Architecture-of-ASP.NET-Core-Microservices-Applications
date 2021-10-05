@@ -1,14 +1,15 @@
-﻿namespace CarRentalSystem.Dealers.Models
+﻿namespace CarRentalSystem.Common.Model
 {
     using System;
     using System.Linq;
     using System.Reflection;
+
     using AutoMapper;
 
     public class MappingProfile : Profile
     {
-        public MappingProfile()
-            => this.ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+        public MappingProfile(Assembly assembly)
+            => this.ApplyMappingsFromAssembly(assembly);
 
         private void ApplyMappingsFromAssembly(Assembly assembly)
         {

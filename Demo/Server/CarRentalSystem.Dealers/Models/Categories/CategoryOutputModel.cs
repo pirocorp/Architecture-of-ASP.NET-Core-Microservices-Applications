@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using AutoMapper;
+    using Common.Model;
     using Data.Models;
 
     public class CategoryOutputModel : IMapFrom<Category>

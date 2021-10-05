@@ -2,14 +2,12 @@ namespace CarRentalSystem.Dealers
 {
     using System.Reflection;
     using Common.Infrastructure;
+    using Common.Services;
     using Data;
-    using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.OpenApi.Models;
     using Services.CarAds;
     using Services.Categories;
     using Services.Dealers;
@@ -25,7 +23,7 @@ namespace CarRentalSystem.Dealers
         public void ConfigureServices(IServiceCollection services)
             => services
                 .AddWebService<DealersDbContext>(this.Configuration, "CarRentalSystem.Dealers", "v1")
-                .AddAutoMapper(Assembly.GetExecutingAssembly())
+                .AddTransient<IDataSeeder, DealersDataSeeder>()
                 .AddTransient<IDealerService, DealerService>()
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<ICarAdService, CarAdService>()

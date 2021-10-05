@@ -1,13 +1,11 @@
-﻿namespace CarRentalSystem.Dealers.Infrastructure
+﻿namespace CarRentalSystem.Dealers.Data
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Data;
-    using Data.Models;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.DependencyInjection;
+    using Common.Services;
+    using Models;
 
-    public static class ApplicationBuilderExtensions
+    public class DealersDataSeeder : IDataSeeder
     {
         private static IEnumerable<Category> GetData()
             => new List<Category>
@@ -20,26 +18,23 @@
                 new Category{ Name = "Cargo Vans", Description = "We offer cargo van rentals at affordable prices. You can book on our website with discount for online reservations. The system will automatically calculate the exact price of the chosen cargo van for rental and on the last step of the booking process there is information about all included in the price. We offer cargo vans for hire from the leading manufacturers as Toyota, Ford, Renault, Iveco and others. Best conditions for hiring a comfortable cargo vans." }
             };
 
-        public static IApplicationBuilder SeedData(this IApplicationBuilder app)
+        private readonly DealersDbContext db;
+
+        public DealersDataSeeder(DealersDbContext db) => this.db = db;
+
+        public void SeedData()
         {
-            using var serviceScope = app.ApplicationServices.CreateScope();
-            var serviceProvider = serviceScope.ServiceProvider;
-
-            var db = serviceProvider.GetRequiredService<DealersDbContext>();
-
-            if (db.Categories.Any())
+            if (this.db.Categories.Any())
             {
-                return app;
+                return;
             }
 
             foreach (var category in GetData())
             {
-                db.Categories.Add(category);
+                this.db.Categories.Add(category);
             }
 
-            db.SaveChanges();
-
-            return app;
+            this.db.SaveChanges();
         }
     }
 }

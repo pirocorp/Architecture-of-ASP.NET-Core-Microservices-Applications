@@ -5,6 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Services;
 
     public static class ApplicationBuilderExtensions
     {
@@ -43,6 +44,23 @@
             var db = serviceProvider.GetRequiredService<DbContext>();
 
             db.Database.Migrate();
+
+            return app;
+        }
+
+        public static IApplicationBuilder SeedData(this IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.CreateScope();
+            var serviceProvider = serviceScope.ServiceProvider;
+
+            var db = serviceProvider.GetRequiredService<DbContext>();
+
+            var seeders = serviceProvider.GetServices<IDataSeeder>();
+
+            foreach (var seeder in seeders)
+            {
+                seeder.SeedData();
+            }
 
             return app;
         }

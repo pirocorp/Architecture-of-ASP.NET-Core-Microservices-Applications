@@ -1,5 +1,6 @@
 ﻿namespace CarRentalSystem.Dealers.Models.Dealers
 {
+    using Common.Model;
     using Data.Models;
 
     public class DealerOutputModel : IMapFrom<Dealer>

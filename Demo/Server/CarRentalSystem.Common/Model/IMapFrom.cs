@@ -1,4 +1,4 @@
-﻿namespace CarRentalSystem.Dealers.Models
+﻿namespace CarRentalSystem.Common.Model
 {
     using AutoMapper;
 
