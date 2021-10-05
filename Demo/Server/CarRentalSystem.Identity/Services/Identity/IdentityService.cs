@@ -12,12 +12,12 @@
         private const string InvalidErrorMessage = "Invalid credentials.";
 
         private readonly UserManager<User> userManager;
-        private readonly IJwtTokenGeneratorService jwtTokenGenerator;
+        private readonly ITokenGeneratorService tokenGenerator;
 
-        public IdentityService(UserManager<User> userManager, IJwtTokenGeneratorService jwtTokenGenerator)
+        public IdentityService(UserManager<User> userManager, ITokenGeneratorService tokenGenerator)
         {
             this.userManager = userManager;
-            this.jwtTokenGenerator = jwtTokenGenerator;
+            this.tokenGenerator = tokenGenerator;
         }
 
         public async Task<Result<User>> Register(UserInputModel userInput)
@@ -51,7 +51,7 @@
                 return InvalidErrorMessage;
             }
 
-            var token = this.jwtTokenGenerator.GenerateToken(user);
+            var token = this.tokenGenerator.GenerateToken(user);
 
             return new UserOutputModel(token);
         }

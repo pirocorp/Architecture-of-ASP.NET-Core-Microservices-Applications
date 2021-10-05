@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using Common.Controllers;
+    using Common.Services;
     using Common.Services.Identity;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -59,5 +60,13 @@
                 CurrentPassword = input.CurrentPassword,
                 NewPassword = input.NewPassword
             });
+
+        [HttpGet]
+        [Authorize]
+        [Route(nameof(Test))]
+        public async Task<ActionResult> Test()
+        {
+            return Result.Success;
+        }
     }
 }
