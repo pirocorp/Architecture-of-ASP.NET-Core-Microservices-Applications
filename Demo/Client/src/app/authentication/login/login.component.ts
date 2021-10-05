@@ -1,7 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, resolveForwardRef } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormGroup, FormBuilder } from 'ngx-strongly-typed-forms';
-import { LoginService } from './login.service';
+import { AuthenticationService } from '../authentication.service';
 import { LoginFormModel } from './login.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterExtService } from 'src/app/shared/rouer-ext.service';
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   @Output() emitter: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private fb: FormBuilder, private loginService: LoginService, private route: ActivatedRoute, private router: Router,private routerService: RouterExtService) { 
+  constructor(private fb: FormBuilder, private authenticationService: AuthenticationService, private route: ActivatedRoute, private router: Router,private routerService: RouterExtService) { 
     if(localStorage.getItem('token')) {
       this.router.navigate(['cars'])
     }
@@ -31,12 +31,16 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loginService.login(this.loginForm.value).subscribe(res => {
-      this.loginService.setTToken(res['token']);
-      this.loginService.setId(res["dealerId"]);
-      window.location.reload()
-      this.router.navigate(['cars']);
+    this.authenticationService.login(this.loginForm.value).subscribe(res => {
+      this.authenticationService.setToken(res['token']);
+
+      this.authenticationService.getDealerId().subscribe(res => {
+        this.authenticationService.setId(res);
+
+        this.router.navigate(['']).then(() => {
+          window.location.reload();
+        });
+      })
     })
   }
-
 }

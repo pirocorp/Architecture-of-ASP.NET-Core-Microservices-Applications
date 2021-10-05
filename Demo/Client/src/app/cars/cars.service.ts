@@ -9,8 +9,9 @@ import { Category } from './category.model';
   providedIn: 'root'
 })
 export class CarsService {
-  carsPath: string = environment.apiUrl + 'carads/';
-  carPathWithoutSlash  = this.carsPath.slice(0, -1)
+  carsPath: string = environment.dealersApiUrl + 'carads/';
+  carPathWithoutSlash  = this.carsPath.slice(0, -1);
+
   constructor(private http: HttpClient) { }
 
   getCars(): Observable<Array<Car>> {
@@ -42,7 +43,6 @@ export class CarsService {
   }
 
   search(queryString): Observable<Array<Car>> {
-    
     return this.http.get<Array<Car>>(this.carPathWithoutSlash + queryString)
   }
 
@@ -53,5 +53,4 @@ export class CarsService {
   changeAvailability(id): Observable<boolean> {
     return this.http.put<boolean>(this.carsPath + id + '/ChangeAvailability', {})
   }
-
 }

@@ -8,7 +8,7 @@ import { Profile } from './profile.model';
   providedIn: 'root'
 })
 export class ProfileService {
-  dealerPath: string = environment.apiUrl + 'Dealers/'
+  dealerPath: string = environment.dealersApiUrl + 'Dealers/'
   constructor(private http: HttpClient) { }
 
   getDealer(id): Observable<Profile> {
@@ -20,7 +20,6 @@ export class ProfileService {
   }
 
   changePassword(payload) {
-    return this.http.put(environment.apiUrl + 'identity/changePassword', payload);
+    return this.http.put(environment.identityApiUrl + 'identity/changePassword', payload);
   }
-
 }

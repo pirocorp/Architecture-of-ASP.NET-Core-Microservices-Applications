@@ -15,7 +15,6 @@ import { HomeComponent } from './home/home.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { PaginationComponent } from './pagination/pagination.component';
 
-
 @NgModule({
   declarations: [PopUpComponent, NavbarComponent, HomeComponent, PaginationComponent],
   imports: [
@@ -40,7 +39,7 @@ import { PaginationComponent } from './pagination/pagination.component';
       useClass: ErrorInterceptorService,
       multi: true
     },
-    RouterExtService,
+    RouterExtService
   ],
   exports: [ReactiveFormsModule,    FormsModule,
     ModalModule, PopUpComponent, NavbarComponent, PaginationComponent]

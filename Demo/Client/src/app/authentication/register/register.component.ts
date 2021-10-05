@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, resolveForwardRef } from '@angular/core';
 import { RegisterModelForm } from './register.model';
-import { LoginService } from '../login/login.service';
 import { FormGroup, FormBuilder } from 'ngx-strongly-typed-forms';
 import { Validators } from '@angular/forms';
-import { RegisterService } from './register.service';
+import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   loginForm: FormGroup<RegisterModelForm>;
-  constructor(private fb: FormBuilder, private registerService: RegisterService, private router: Router) { }
+  constructor(private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group<RegisterModelForm>({
@@ -25,9 +24,24 @@ export class RegisterComponent implements OnInit {
   }
 
   login() {
-    this.registerService.register(this.loginForm.value).subscribe(res => {
-      this.router.navigate(['auth']);
+    const form = this.loginForm.value;
+
+    const { email, password } = form;
+    const userData = { email, password };
+
+    const { name, phoneNumber } = form;
+    const dealerData = { name, phoneNumber };
+
+    this.authenticationService.register(userData).subscribe(res => {
+      this.authenticationService.setToken(res['token']);
+
+      this.authenticationService.createDealer(dealerData).subscribe(res => {
+        this.authenticationService.setId(res);
+
+        this.router.navigate(['']).then(() => {
+          window.location.reload();
+        });
+      })
     })
   }
-
 }

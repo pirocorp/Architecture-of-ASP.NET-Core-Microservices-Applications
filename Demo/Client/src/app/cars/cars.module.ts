@@ -10,8 +10,6 @@ import { SearchComponent } from './search/search.component';
 import { SortComponent } from './sort/sort.component';
 import { DealerCarsComponent } from './dealer-cars/dealer-cars.component';
 
-
-
 @NgModule({
   declarations: [ListComponent, CreateComponent, EditComponent, ViewComponent, SearchComponent, SortComponent, DealerCarsComponent],
   imports: [
