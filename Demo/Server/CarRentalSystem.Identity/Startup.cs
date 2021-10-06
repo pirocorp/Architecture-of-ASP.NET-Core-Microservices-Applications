@@ -1,6 +1,7 @@
 namespace CarRentalSystem.Identity
 {
     using Common.Infrastructure;
+    using Common.Services;
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
@@ -22,12 +23,14 @@ namespace CarRentalSystem.Identity
             => services
                 .AddUserStore()
                 .AddWebService<IdentityDbContext>(this.Configuration, "CarRentalSystem.Identity", "v1")
+                .AddTransient<IDataSeeder, IdentityDataSeeder>()
                 .AddTransient<IIdentityService, IdentityService>()
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
                 .UseWebService(env, "CarRentalSystem.Identity")
-                .MigrateDatabase();
+                .MigrateDatabase()
+                .SeedData();
     }
 }

@@ -51,7 +51,8 @@
                 return InvalidErrorMessage;
             }
 
-            var token = this.tokenGenerator.GenerateToken(user);
+            var roles = await this.userManager.GetRolesAsync(user);
+            var token = this.tokenGenerator.GenerateToken(user, roles);
 
             return new UserOutputModel(token);
         }

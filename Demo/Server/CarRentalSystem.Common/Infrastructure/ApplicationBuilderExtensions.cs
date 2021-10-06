@@ -52,9 +52,7 @@
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
             var serviceProvider = serviceScope.ServiceProvider;
-
-            var db = serviceProvider.GetRequiredService<DbContext>();
-
+            
             var seeders = serviceProvider.GetServices<IDataSeeder>();
 
             foreach (var seeder in seeders)
