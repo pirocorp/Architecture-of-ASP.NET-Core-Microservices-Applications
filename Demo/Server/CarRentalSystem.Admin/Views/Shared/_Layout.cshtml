@@ -16,6 +16,7 @@
                 @if (this.User.IsAdministrator())
                 {
                     <a class="navbar-brand" asp-area="" asp-controller="Statistics" asp-action="Index">Car Rental System Administration</a>
+                    <a asp-area="" asp-controller="Dealers" asp-action="Index">Dealers</a>
                     <a class="float-right" asp-area="" asp-controller="Identity" asp-action="Logout">Logout</a>
                 }
                 else

@@ -1,6 +1,7 @@
 ﻿namespace CarRentalSystem.Dealers.Services.Dealers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
@@ -18,6 +19,15 @@
             : base(db)
             => this.mapper = mapper;
 
+        public Task<Dealer> FindByUser(string userId)
+            => this.FindByUser(userId, dealer => dealer);
+
+        public async Task<Dealer> FindById(int dealerId)
+            => await this.Data.FindAsync<Dealer>(dealerId);
+
+        public Task<int> GetIdByUser(string userId)
+            => this.FindByUser(userId, dealer => dealer.Id);
+
         public async Task<bool> HasCarAd(int dealerId, int carAdId)
             => await this
                 .All()
@@ -28,6 +38,11 @@
         public async Task<bool> IsDealer(string userId)
             => await this.All()
                 .AnyAsync(d => d.UserId == userId);
+
+        public async Task<IEnumerable<DealerDetailsOutputModel>> GetAll()
+            => await this.mapper
+                .ProjectTo<DealerDetailsOutputModel>(this.All())
+                .ToListAsync();
 
         public async Task<DealerDetailsOutputModel> GetDetails(int id)
             => await this.mapper
@@ -42,12 +57,6 @@
                     .All()
                     .Where(d => d.CarAds.Any(c => c.Id == carAdId)))
                 .SingleOrDefaultAsync();
-
-        public Task<int> GetIdByUser(string userId)
-            => this.FindByUser(userId, dealer => dealer.Id);
-
-        public Task<Dealer> FindByUser(string userId)
-            => this.FindByUser(userId, dealer => dealer);
 
         private async Task<T> FindByUser<T>(
             string userId,

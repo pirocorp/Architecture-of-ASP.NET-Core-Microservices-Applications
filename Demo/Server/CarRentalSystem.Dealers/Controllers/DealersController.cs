@@ -1,7 +1,9 @@
 ﻿namespace CarRentalSystem.Dealers.Controllers
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Common.Controllers;
+    using Common.Infrastructure;
     using Common.Services;
     using Common.Services.Identity;
     using Data.Models;
@@ -64,9 +66,11 @@
         [Route(Id)]
         public async Task<ActionResult> Edit(int id, EditDealerInputModel input)
         {
-            var dealer = await this.dealers.FindByUser(this.currentUser.UserId);
+            var dealer = this.currentUser.IsAdministrator
+                ? await this.dealers.FindById(id)
+                : await this.dealers.FindByUser(this.currentUser.UserId);
 
-            if (id != dealer.Id)
+            if (id != dealer?.Id)
             {
                 return this.BadRequest(Result.Failure("You cannot edit this dealer."));
             }
@@ -78,5 +82,10 @@
 
             return this.Ok();
         }
+
+        [HttpGet]
+        [AuthorizeAdministrator]
+        public async Task<IEnumerable<DealerDetailsOutputModel>> All()
+            => await this.dealers.GetAll();
     }
 }

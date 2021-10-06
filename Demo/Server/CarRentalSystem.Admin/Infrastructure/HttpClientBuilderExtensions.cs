@@ -23,7 +23,7 @@
                     var requestServices = serviceProvider
                         .GetService<IHttpContextAccessor>()
                         ?.HttpContext
-                        .RequestServices;
+                        ?.RequestServices;
 
                     var currentToken = requestServices
                         ?.GetService<ICurrentTokenService>()

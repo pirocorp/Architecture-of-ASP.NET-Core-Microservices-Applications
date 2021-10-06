@@ -1,8 +1,8 @@
-﻿namespace CarRentalSystem.Admin.Infrastructure
+﻿namespace CarRentalSystem.Common.Infrastructure
 {
     using Microsoft.AspNetCore.Authorization;
 
-    using static CarRentalSystem.Common.Constants;
+    using static Common.Constants;
 
     public class AuthorizeAdministratorAttribute : AuthorizeAttribute
     {

@@ -1,5 +1,6 @@
 ﻿namespace CarRentalSystem.Dealers.Services.Dealers
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Data.Models;
     using Models.Dealers;
@@ -8,11 +9,15 @@
     {
         Task<Dealer> FindByUser(string userId);
 
+        Task<Dealer> FindById(int dealerId);
+
         Task<int> GetIdByUser(string userId);
 
         Task<bool> HasCarAd(int dealerId, int carAdId);
 
         Task<bool> IsDealer(string userId);
+
+        Task<IEnumerable<DealerDetailsOutputModel>> GetAll();
 
         Task<DealerDetailsOutputModel> GetDetails(int id);
 

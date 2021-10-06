@@ -3,12 +3,13 @@
     using System;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Infrastructure;
+    using Common.Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models.Identity;
     using Services.Identity;
+
     using static CarRentalSystem.Admin.Infrastructure.InfrastructureConstants;
 
     public class IdentityController : AdministrationController
@@ -44,7 +45,7 @@
                         });
                 },
                 success: this.RedirectToAction(nameof(StatisticsController.Index), "Statistics"),
-                failure: View("../Home/Index", model));
+                failure: this.View("../Home/Index", model));
 
         [AuthorizeAdministrator]
         public IActionResult Logout()

@@ -1,6 +1,7 @@
 ﻿namespace CarRentalSystem.Admin.Controllers
 {
     using System.Diagnostics;
+    using Common.Infrastructure;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Models;

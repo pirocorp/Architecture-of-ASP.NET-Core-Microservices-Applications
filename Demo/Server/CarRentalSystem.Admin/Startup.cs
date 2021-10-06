@@ -13,6 +13,7 @@ namespace CarRentalSystem.Admin
     using Microsoft.AspNetCore.Mvc;
     using Refit;
     using Services;
+    using Services.Dealers;
     using Services.Statistics;
 
     public class Startup
@@ -36,12 +37,17 @@ namespace CarRentalSystem.Admin
                     .Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
             services
-                .AddRefitClient<IIdentityService>()
-                .WithConfiguration(serviceEndpoints.Identity);
+                .AddExternalService<IIdentityService>(this.Configuration)
+                .AddExternalService<IStatisticsService>(this.Configuration)
+                .AddExternalService<IDealersService>(this.Configuration);
 
-            services
-                .AddRefitClient<IStatisticsService>()
-                .WithConfiguration(serviceEndpoints.Statistics);
+            //services
+            //    .AddRefitClient<IIdentityService>()
+            //    .WithConfiguration(serviceEndpoints.Identity);
+
+            //services
+            //    .AddRefitClient<IStatisticsService>()
+            //    .WithConfiguration(serviceEndpoints.Statistics);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -113,8 +113,7 @@
             Assembly assembly)
             => services
                 .AddAutoMapper(
-                    (_, config) => config
-                        .AddProfile(new MappingProfile(assembly)),
+                    (_, config) => config.AddProfile(new MappingProfile(assembly)),
                     Array.Empty<Assembly>());
     }
 }

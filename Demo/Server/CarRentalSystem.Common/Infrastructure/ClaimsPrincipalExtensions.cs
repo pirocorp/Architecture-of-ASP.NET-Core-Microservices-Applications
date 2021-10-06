@@ -1,8 +1,7 @@
-﻿namespace CarRentalSystem.Admin.Infrastructure
+﻿namespace CarRentalSystem.Common.Infrastructure
 {
     using System.Security.Claims;
-
-    using static CarRentalSystem.Common.Constants;
+    using static Common.Constants;
 
     public static class ClaimsPrincipalExtensions
     {

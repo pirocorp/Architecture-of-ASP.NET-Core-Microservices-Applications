@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Infrastructure;
+    using Common.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
     using Refit;
