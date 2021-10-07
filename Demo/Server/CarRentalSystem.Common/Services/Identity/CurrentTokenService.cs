@@ -1,4 +1,4 @@
-﻿namespace CarRentalSystem.Admin.Services.Identity
+﻿namespace CarRentalSystem.Common.Services.Identity
 {
     public class CurrentTokenService : ICurrentTokenService
     {

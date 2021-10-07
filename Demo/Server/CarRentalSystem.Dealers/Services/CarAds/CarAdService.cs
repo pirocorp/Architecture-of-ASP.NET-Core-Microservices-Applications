@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Common.Services;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -27,14 +28,14 @@
 
         public async Task<bool> Delete(int id)
         {
-            var carAd = await this.Data.CarAds.FindAsync(id);
+            var carAd = await this.Data.FindAsync<CarAd>(id);
 
             if (carAd == null)
             {
                 return false;
             }
 
-            this.Data.CarAds.Remove(carAd);
+            this.Data.Remove(carAd);
 
             await this.Data.SaveChangesAsync();
 
@@ -77,7 +78,7 @@
         private IQueryable<CarAd> GetCarAdsQuery(
             CarAdsQuery query, int? dealerId = null)
         {
-            var dataQuery = this.Data.CarAds.AsQueryable();
+            var dataQuery = this.All();
 
             if (dealerId.HasValue)
             {

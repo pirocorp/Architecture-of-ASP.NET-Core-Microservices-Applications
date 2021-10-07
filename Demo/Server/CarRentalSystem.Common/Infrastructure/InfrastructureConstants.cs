@@ -1,4 +1,4 @@
-﻿namespace CarRentalSystem.Admin.Infrastructure
+﻿namespace CarRentalSystem.Common.Infrastructure
 {
     public class InfrastructureConstants
     {

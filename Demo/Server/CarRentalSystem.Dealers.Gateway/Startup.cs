@@ -1,21 +1,16 @@
-namespace CarRentalSystem.Admin
+namespace CarRentalSystem.Dealers.Gateway
 {
     using System.Reflection;
+    using Common.Infrastructure;
+    using Common.Services.Identity;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
-    using CarRentalSystem.Admin.Services.Identity;
-    using Common.Infrastructure;
-    using Common.Services.Identity;
-    using Infrastructure;
-    using Microsoft.AspNetCore.Mvc;
-    using Refit;
     using Services;
-    using Services.Dealers;
-    using Services.Statistics;
+    using Services.CarAds;
+    using Services.CarAdViews;
 
     public class Startup
     {
@@ -28,41 +23,39 @@ namespace CarRentalSystem.Admin
             var serviceEndpoints = this.Configuration
                 .GetSection(nameof(ServiceEndpoints))
                 .Get<ServiceEndpoints>(config => config.BindNonPublicProperties = true);
-
+            
             services
                 .AddAutoMapperProfile(Assembly.GetExecutingAssembly())
                 .AddTokenAuthentication(this.Configuration)
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
-                .AddTransient<JwtCookieAuthenticationMiddleware>()
-                .AddExternalService<IIdentityService>(this.Configuration, serviceEndpoints.Identity)
-                .AddExternalService<IStatisticsService>(this.Configuration, serviceEndpoints.Statistics)
-                .AddExternalService<IDealersService>(this.Configuration, serviceEndpoints.Dealers)
-                .AddControllersWithViews(options => options
-                    .Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+                .AddTransient<JwtHeaderAuthenticationMiddleware>()
+                .AddExternalService<ICarAdViewsService>(this.Configuration, serviceEndpoints.Statistics)
+                .AddExternalService<ICarAdsService>(this.Configuration, serviceEndpoints.Dealers)
+                .AddControllers();
+
+            services.AddSwagger("CarRentalSystem.Dealers.Gateway", "v1");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app
-                    .UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRentalSystem.Dealers.Gateway"));
             }
-            else
-            {
-                app
-                    .UseExceptionHandler("/Home/Error")
-                    .UseHsts();
-            }
-
+            
             app
                 .UseHttpsRedirection()
-                .UseStaticFiles()
                 .UseRouting()
-                .UseJwtCookieAuthentication()
+                .UseCors(options => options
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod())
+                .UseJwtHeaderAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints
-                    .MapDefaultControllerRoute());
+                    .MapControllers());;
         }
     }
 }

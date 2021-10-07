@@ -10,7 +10,7 @@
     using Models.Identity;
     using Services.Identity;
 
-    using static CarRentalSystem.Admin.Infrastructure.InfrastructureConstants;
+    using static Common.Infrastructure.InfrastructureConstants;
 
     public class IdentityController : AdministrationController
     {

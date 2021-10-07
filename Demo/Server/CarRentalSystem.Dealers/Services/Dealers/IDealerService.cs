@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Common.Services;
     using Data.Models;
     using Models.Dealers;
 

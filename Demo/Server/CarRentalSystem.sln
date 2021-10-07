@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Dealers", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Common", "CarRentalSystem.Common\CarRentalSystem.Common.csproj", "{6BBAD377-FDC3-4460-A86E-394F6E8985EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalSystem.Statistics", "CarRentalSystem.Statistics\CarRentalSystem.Statistics.csproj", "{CAD49BFB-5C74-480F-8602-502CFEEC81A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Statistics", "CarRentalSystem.Statistics\CarRentalSystem.Statistics.csproj", "{CAD49BFB-5C74-480F-8602-502CFEEC81A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalSystem.Schedule", "CarRentalSystem.Schedule\CarRentalSystem.Schedule.csproj", "{DF384329-5AA7-43C3-BB67-7DCF60091B33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Schedule", "CarRentalSystem.Schedule\CarRentalSystem.Schedule.csproj", "{DF384329-5AA7-43C3-BB67-7DCF60091B33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalSystem.Admin", "CarRentalSystem.Admin\CarRentalSystem.Admin.csproj", "{71318213-12B5-4AEE-B091-1690F9D895BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Admin", "CarRentalSystem.Admin\CarRentalSystem.Admin.csproj", "{71318213-12B5-4AEE-B091-1690F9D895BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalSystem.Dealers.Gateway", "CarRentalSystem.Dealers.Gateway\CarRentalSystem.Dealers.Gateway.csproj", "{2309CFF5-AE90-4D51-A85E-0D698F0114DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{71318213-12B5-4AEE-B091-1690F9D895BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71318213-12B5-4AEE-B091-1690F9D895BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71318213-12B5-4AEE-B091-1690F9D895BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2309CFF5-AE90-4D51-A85E-0D698F0114DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2309CFF5-AE90-4D51-A85E-0D698F0114DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2309CFF5-AE90-4D51-A85E-0D698F0114DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2309CFF5-AE90-4D51-A85E-0D698F0114DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

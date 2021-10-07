@@ -2,13 +2,11 @@
 {
     using System;
     using System.Net.Http.Headers;
-
+    using Common.Services.Identity;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
 
-    using Services.Identity;
-
-    using static InfrastructureConstants;
+    using static Common.Infrastructure.InfrastructureConstants;
 
     public static class HttpClientBuilderExtensions
     {

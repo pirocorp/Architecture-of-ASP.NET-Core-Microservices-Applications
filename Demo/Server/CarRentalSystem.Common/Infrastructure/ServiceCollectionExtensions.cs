@@ -1,17 +1,24 @@
 ﻿namespace CarRentalSystem.Common.Infrastructure
 {
     using System;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Reflection;
     using System.Text;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
     using Model;
+    using Refit;
+    using Services;
     using Services.Identity;
     using Swagger;
+
+    using static InfrastructureConstants;
 
     public static class ServiceCollectionExtensions
     {
@@ -115,5 +122,39 @@
                 .AddAutoMapper(
                     (_, config) => config.AddProfile(new MappingProfile(assembly)),
                     Array.Empty<Assembly>());
+
+        public static IServiceCollection AddExternalService<TService>(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            string baseAddress)
+            where TService : class
+        {
+            void Configurator(IServiceProvider serviceProvider, HttpClient client)
+            {
+                client.BaseAddress = new Uri(baseAddress);
+
+                var requestServices = serviceProvider
+                    .GetService<IHttpContextAccessor>()
+                    ?.HttpContext
+                    ?.RequestServices;
+
+                var currentToken = requestServices?.GetService<ICurrentTokenService>()
+                    ?.Get();
+
+                if (currentToken == null)
+                {
+                    return;
+                }
+
+                var authorizationHeader = new AuthenticationHeaderValue(AuthorizationHeaderValuePrefix, currentToken);
+                client.DefaultRequestHeaders.Authorization = authorizationHeader;
+            }
+
+            services
+                .AddRefitClient<TService>()
+                .ConfigureHttpClient(Configurator);
+
+            return services;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace CarRentalSystem.Dealers.Services.Manufacturers
 {
     using System.Threading.Tasks;
+    using Common.Services;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -14,8 +15,7 @@
 
         public async Task<Manufacturer> FindByName(string name)
             => await this
-                .Data
-                .Manufacturers
+                .All()
                 .FirstOrDefaultAsync(m => m.Name == name);
     }
 }

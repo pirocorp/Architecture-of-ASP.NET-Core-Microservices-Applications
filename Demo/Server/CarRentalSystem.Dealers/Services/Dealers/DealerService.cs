@@ -6,6 +6,7 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Common.Services;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -63,8 +64,7 @@
             Expression<Func<Dealer, T>> selector)
         {
             var dealerData = await this
-                .Data
-                .Dealers
+                .All()
                 .Where(u => u.UserId == userId)
                 .Select(selector)
                 .FirstOrDefaultAsync();

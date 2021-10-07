@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Common.Services;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -17,12 +18,11 @@
             => this.mapper = mapper;
 
         public async Task<Category> Find(int categoryId)
-            => await this.Data.Categories.FindAsync(categoryId);
+            => await this.Data.FindAsync<Category>(categoryId);
 
         public async Task<IEnumerable<CategoryOutputModel>> GetAll()
             => await this.mapper
-                .ProjectTo<CategoryOutputModel>(this
-                    .Data.Categories)
+                .ProjectTo<CategoryOutputModel>(this.All())
                 .ToListAsync();
     }
 }

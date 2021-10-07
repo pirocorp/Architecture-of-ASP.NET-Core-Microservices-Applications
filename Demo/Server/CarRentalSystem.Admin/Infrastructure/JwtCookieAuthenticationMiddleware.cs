@@ -1,11 +1,11 @@
 ﻿namespace CarRentalSystem.Admin.Infrastructure
 {
     using System.Threading.Tasks;
+    using Common.Services.Identity;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
-    using Services.Identity;
 
-    using static InfrastructureConstants;
+    using static Common.Infrastructure.InfrastructureConstants;
 
     public class JwtCookieAuthenticationMiddleware : IMiddleware
     {
