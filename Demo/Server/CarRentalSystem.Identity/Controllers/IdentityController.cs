@@ -64,7 +64,7 @@
         [HttpGet]
         [Authorize]
         [Route(nameof(Test))]
-        public async Task<ActionResult> Test()
+        public ActionResult Test()
         {
             return Result.Success;
         }

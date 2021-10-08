@@ -3,11 +3,12 @@ namespace CarRentalSystem.Statistics
     using Common.Infrastructure;
     using Common.Services;
     using Data;
+    using MassTransit;
+    using Messages;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using Services.CarAdViews;
     using Services.Statistics;
 
@@ -22,14 +23,29 @@ namespace CarRentalSystem.Statistics
 
         public void ConfigureServices(IServiceCollection services)
             => services
-                .AddWebService<StatisticsDbContext>(this.Configuration, "CarRentalSystem.Statistics", "v1")
+                .AddWebService<StatisticsDbContext>(this.Configuration)
                 .AddTransient<IDataSeeder, StatisticsDataSeeder>()
                 .AddTransient<IStatisticsService, StatisticsService>()
-                .AddTransient<ICarAdViewService, CarAdViewService>();
+                .AddTransient<ICarAdViewService, CarAdViewService>()
+                .AddMassTransit(mt =>
+                {
+                    mt.AddConsumer<CarAdCreatedConsumer>();
+
+                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                    {
+                        rmq.Host("localhost");
+
+                        rmq.ReceiveEndpoint(nameof(CarAdCreatedConsumer), endpoint =>
+                        {
+                            endpoint.ConfigureConsumer<CarAdCreatedConsumer>(bus);
+                        });
+                    }));
+                })
+                .AddMassTransitHostedService();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
-                .UseWebService(env, "CarRentalSystem.Dealers")
+                .UseWebService(env)
                 .MigrateDatabase()
                 .SeedData();
     }

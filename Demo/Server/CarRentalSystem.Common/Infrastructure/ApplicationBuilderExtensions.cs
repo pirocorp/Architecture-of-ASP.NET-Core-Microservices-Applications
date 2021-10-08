@@ -1,5 +1,6 @@
 ﻿namespace CarRentalSystem.Common.Infrastructure
 {
+    using System.Reflection;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -11,14 +12,13 @@
     {
         public static IApplicationBuilder UseWebService(
             this IApplicationBuilder app, 
-            IWebHostEnvironment env, 
-            string serviceName)
+            IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", serviceName));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetCallingAssembly().GetName().Name));
             }
 
             app

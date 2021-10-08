@@ -1,58 +1,45 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-
 namespace CarRentalSystem.Schedule
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Common.Infrastructure;
+    using Data;
+    using MassTransit;
+    using Messages;
+    using Services;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-        }
+            => this.Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+            => services
+                .AddWebService<ScheduleDbContext>(this.Configuration)
+                .AddTransient<IRentedCarService, RentedCarService>()
+                .AddMassTransit(mt =>
+                {
+                    mt.AddConsumer<CarAdUpdatedConsumer>();
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarRentalSystem.Schedule", Version = "v1" });
-            });
-        }
+                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                    {
+                        rmq.Host("localhost");
+
+                        rmq.ReceiveEndpoint(nameof(CarAdUpdatedConsumer), endpoint =>
+                        {
+                            endpoint.ConfigureConsumer<CarAdUpdatedConsumer>(bus);
+                        });
+                    }));
+                })
+                .AddMassTransitHostedService();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRentalSystem.Schedule v1"));
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+            => app
+                .UseWebService(env)
+                .MigrateDatabase();
     }
 }

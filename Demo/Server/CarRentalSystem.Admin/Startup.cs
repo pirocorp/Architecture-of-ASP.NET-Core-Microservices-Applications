@@ -12,7 +12,6 @@ namespace CarRentalSystem.Admin
     using Common.Services.Identity;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
-    using Refit;
     using Services;
     using Services.Dealers;
     using Services.Statistics;

@@ -22,14 +22,14 @@ namespace CarRentalSystem.Identity
         public void ConfigureServices(IServiceCollection services)
             => services
                 .AddUserStore()
-                .AddWebService<IdentityDbContext>(this.Configuration, "CarRentalSystem.Identity", "v1")
+                .AddWebService<IdentityDbContext>(this.Configuration)
                 .AddTransient<IDataSeeder, IdentityDataSeeder>()
                 .AddTransient<IIdentityService, IdentityService>()
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
-                .UseWebService(env, "CarRentalSystem.Identity")
+                .UseWebService(env)
                 .MigrateDatabase()
                 .SeedData();
     }

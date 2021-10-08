@@ -2,7 +2,6 @@
 {
     using System.Diagnostics;
     using Common.Infrastructure;
-    using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Models;
 

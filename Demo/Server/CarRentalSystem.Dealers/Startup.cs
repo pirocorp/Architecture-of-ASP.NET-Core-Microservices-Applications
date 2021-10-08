@@ -1,9 +1,10 @@
 namespace CarRentalSystem.Dealers
 {
-    using System.Reflection;
     using Common.Infrastructure;
     using Common.Services;
     using Data;
+    using GreenPipes;
+    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -22,16 +23,24 @@ namespace CarRentalSystem.Dealers
 
         public void ConfigureServices(IServiceCollection services)
             => services
-                .AddWebService<DealersDbContext>(this.Configuration, "CarRentalSystem.Dealers", "v1")
+                .AddWebService<DealersDbContext>(this.Configuration)
                 .AddTransient<IDataSeeder, DealersDataSeeder>()
                 .AddTransient<IDealerService, DealerService>()
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<ICarAdService, CarAdService>()
-                .AddTransient<IManufacturerService, ManufacturerService>();
+                .AddTransient<IManufacturerService, ManufacturerService>()
+                .AddMassTransit(mt =>
+                {
+                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                    {
+                        rmq.Host("localhost");
+                    }));
+                })
+                .AddMassTransitHostedService();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
-                .UseWebService(env, "CarRentalSystem.Dealers")
+                .UseWebService(env)
                 .MigrateDatabase()
                 .SeedData();
     }

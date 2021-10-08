@@ -14,7 +14,6 @@
     using Microsoft.OpenApi.Models;
     using Model;
     using Refit;
-    using Services;
     using Services.Identity;
     using Swagger;
 
@@ -25,8 +24,7 @@
         public static IServiceCollection AddWebService<TDbContext>(
             this IServiceCollection services, 
             IConfiguration configuration,
-            string serviceName,
-            string serviceVersion)
+            string serviceVersion = "v1")
             where TDbContext : DbContext
         {
             services
@@ -37,7 +35,7 @@
                 .AddControllers();
 
             services
-                .AddSwagger(serviceName, serviceVersion);
+                .AddSwagger(Assembly.GetCallingAssembly().GetName().Name, serviceVersion);
 
             return services;
         }
