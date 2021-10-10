@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CarsService } from 'src/app/cars/cars.service';
 import { Category } from 'src/app/cars/category.model';
+import { NotificationsService } from '../notifications.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +11,13 @@ import { Category } from 'src/app/cars/category.model';
 })
 export class NavbarComponent implements OnInit {
   token: string;
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
-    this.getToken()
+    this.getToken();
+    this.notificationsService.subscribe();
   }
 
   getToken() {

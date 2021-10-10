@@ -6,7 +6,6 @@ namespace CarRentalSystem.Schedule
     using Microsoft.Extensions.DependencyInjection;
     using Common.Infrastructure;
     using Data;
-    using MassTransit;
     using Messages;
     using Services;
 
@@ -21,21 +20,7 @@ namespace CarRentalSystem.Schedule
             => services
                 .AddWebService<ScheduleDbContext>(this.Configuration)
                 .AddTransient<IRentedCarService, RentedCarService>()
-                .AddMassTransit(mt =>
-                {
-                    mt.AddConsumer<CarAdUpdatedConsumer>();
-
-                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
-                    {
-                        rmq.Host("localhost");
-
-                        rmq.ReceiveEndpoint(nameof(CarAdUpdatedConsumer), endpoint =>
-                        {
-                            endpoint.ConfigureConsumer<CarAdUpdatedConsumer>(bus);
-                        });
-                    }));
-                })
-                .AddMassTransitHostedService();
+                .AddMessaging(typeof(CarAdUpdatedConsumer));
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

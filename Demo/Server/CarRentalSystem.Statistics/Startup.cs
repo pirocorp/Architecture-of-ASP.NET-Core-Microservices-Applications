@@ -3,7 +3,6 @@ namespace CarRentalSystem.Statistics
     using Common.Infrastructure;
     using Common.Services;
     using Data;
-    using MassTransit;
     using Messages;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -27,21 +26,7 @@ namespace CarRentalSystem.Statistics
                 .AddTransient<IDataSeeder, StatisticsDataSeeder>()
                 .AddTransient<IStatisticsService, StatisticsService>()
                 .AddTransient<ICarAdViewService, CarAdViewService>()
-                .AddMassTransit(mt =>
-                {
-                    mt.AddConsumer<CarAdCreatedConsumer>();
-
-                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
-                    {
-                        rmq.Host("localhost");
-
-                        rmq.ReceiveEndpoint(nameof(CarAdCreatedConsumer), endpoint =>
-                        {
-                            endpoint.ConfigureConsumer<CarAdCreatedConsumer>(bus);
-                        });
-                    }));
-                })
-                .AddMassTransitHostedService();
+                .AddMessaging(typeof(CarAdCreatedConsumer));
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

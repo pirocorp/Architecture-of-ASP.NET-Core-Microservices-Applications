@@ -3,8 +3,6 @@ namespace CarRentalSystem.Dealers
     using Common.Infrastructure;
     using Common.Services;
     using Data;
-    using GreenPipes;
-    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -29,14 +27,7 @@ namespace CarRentalSystem.Dealers
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<ICarAdService, CarAdService>()
                 .AddTransient<IManufacturerService, ManufacturerService>()
-                .AddMassTransit(mt =>
-                {
-                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
-                    {
-                        rmq.Host("localhost");
-                    }));
-                })
-                .AddMassTransitHostedService();
+                .AddMessaging();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

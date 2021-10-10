@@ -2,7 +2,6 @@
 {
     using System.Threading.Tasks;
     using Common.Messages.Dealers;
-    using Data;
     using MassTransit;
     using Services;
 

@@ -99,6 +99,9 @@
             await this.publisher.Publish(new CarAdCreatedMessage()
             {
                 CarAdId = carAd.Id,
+                Manufacturer = carAd.Manufacturer.Name,
+                Model = carAd.Model,
+                PricePerDay = carAd.PricePerDay
             });
 
             return new CreateCarAdOutputModel(carAd.Id);
