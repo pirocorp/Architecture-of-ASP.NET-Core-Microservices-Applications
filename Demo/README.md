@@ -39,6 +39,7 @@ Networks are used to allow comunications between containers. Only containers in 
 
 ```yml
 networks:
+  carrentalsystem-network:
 ```
 
 Volumes are persistance storages for containers because containers are immutable.
