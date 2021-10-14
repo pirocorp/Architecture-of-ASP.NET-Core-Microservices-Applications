@@ -1,19 +1,24 @@
 # Creating Docker Compose File
 
-defines version of the yml file
+Defines version of the yml file
 
 ```yml
-	version: "3.8"
+version: "3.8"
 ```
 
 Services are all managed containers
 
 ```yml
-	services:
+services:
 ```
 
-Defines are networks
+Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
 
 ```yml
-	networks:
+networks:
+```
+
+Volumes are persistance storages for containers because containers are immutable.
+```yml
+volumes:
 ```
