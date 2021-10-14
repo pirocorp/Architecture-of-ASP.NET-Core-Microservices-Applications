@@ -78,9 +78,13 @@ FROM build AS publish
 # Executes command publish with output dir /app/publish
 RUN dotnet publish "CarRentalSystem.Identity.csproj" -c Release -o /app/publish
 
+# Final Stage continious initial stage and renameing it to final
 FROM base AS final
+# Changes workdir to /app
 WORKDIR /app
-COPY --from=publish /app/publish .
+# opies the contents of output directory from the publish stage into the /app/publish directory of final stage. 
+COPY --from=publish /app/publish .1
+# command that will start the application
 ENTRYPOINT ["dotnet", "CarRentalSystem.Identity.dll"]
 ```
 
