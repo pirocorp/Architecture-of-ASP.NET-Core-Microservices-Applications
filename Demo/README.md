@@ -107,7 +107,7 @@ ENTRYPOINT ["dotnet", "CarRentalSystem.Identity.dll"]
 
 #### First Stage
 
-The lines in the Dockerfile begin with image from Microsoft Container Registry (mcr.microsoft.com) and create an intermediate image base that exposes ports 80 and 443, and sets the working directory to /app.
+The lines in the Dockerfile begin with image from Microsoft Container Registry (mcr.microsoft.com) and create an intermediate image ```base``` that exposes ports 80 and 443, and sets the working directory to ```/app```.
 
 #### Second Stage
 
