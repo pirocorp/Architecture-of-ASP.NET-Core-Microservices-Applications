@@ -27,6 +27,12 @@ data:
   environment:
     - ACCEPT_EULA=Y
     - SA_PASSWORD=yourStrongPassword12!@
+  volumes:
+    # volume sqldata is mapped to /var/opt/mssql folder in the container.
+    - sqldata:/var/opt/mssql
+  networks:
+    # this container (service) is part of carrentalsystem-network
+    - carrentalsystem-network
 ```
 
 Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
