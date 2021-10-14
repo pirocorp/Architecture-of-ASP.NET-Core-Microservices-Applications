@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Admin", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Dealers.Gateway", "CarRentalSystem.Dealers.Gateway\CarRentalSystem.Dealers.Gateway.csproj", "{2309CFF5-AE90-4D51-A85E-0D698F0114DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalSystem.Notifications", "CarRentalSystem.Notifications\CarRentalSystem.Notifications.csproj", "{192532A8-AD38-4BAE-BE03-73448EAE12EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Notifications", "CarRentalSystem.Notifications\CarRentalSystem.Notifications.csproj", "{192532A8-AD38-4BAE-BE03-73448EAE12EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

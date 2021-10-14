@@ -50,7 +50,6 @@
                 .AddDbContext<TDbContext>(options 
                     => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-
         public static IServiceCollection AddApplicationSettings(
             this IServiceCollection services, 
             IConfiguration configuration)
