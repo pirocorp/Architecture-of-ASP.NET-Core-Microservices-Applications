@@ -44,5 +44,5 @@ networks:
 Volumes are persistance storages for containers because containers are immutable.
 ```yml
 volumes:
-  sqldata
+  sqldata:
 ```
