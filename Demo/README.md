@@ -90,6 +90,28 @@ dealers:
     - data
 ```
 
+Statistics service (container)
+
+```yml
+statistics:    
+  container_name: statistics  
+  build:
+    context: ./Server
+    dockerfile: ./CarRentalSystem.Statistics/Dockerfile
+  ports:
+    - "5005:80"
+  env_file: Server/CarRentalSystem.Common/Common.env
+  environment:
+    - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Statistics;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+  restart: on-failure
+  volumes:
+    - ./.aspnet/statistics/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+  networks:
+    - carrentalsystem-network
+  depends_on: 
+    - data
+```
+
 Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
 
 ```yml
