@@ -14,7 +14,6 @@ services:
 
 Data service in this service will be sqlserver. 
 
-
 ```yml
 data:
   # Set container name comunication between services (containers) is by name
@@ -37,10 +36,28 @@ data:
     - carrentalsystem-network
 ```
 
-Identity service is identity micro service
+Identity service (container)
 
 ```yml
-  identity: 
+identity:
+  container_name: identity
+  # build will build image from a docker file.
+  build:
+    # commands in your Dockerfile then act as if they are relative to the context 
+    # regardless of where the Dockerfile actually is
+    context: ./Server
+    # dockerfile location relative to context
+    dockerfile: ./CarRentalSystem.Identity/Dockerfile
+  ports:
+    - "5001:80"
+  # Environment file location
+  env_file: Server/CarRentalSystem.Common/Common.env
+  # environment variables they can be accessed programabily from the application
+  environment:
+    # Connection String setting
+    - ConnectionStrings__DefaultConnection=yourConnection
+  restart: on-failure
+  
 ```
 
 Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
