@@ -68,6 +68,28 @@ identity:
     - data
 ```
 
+Dealers service (container)
+
+```yml
+dealers:    
+  container_name: dealers  
+  build:
+    context: ./Server
+    dockerfile: ./CarRentalSystem.Dealers/Dockerfile
+  ports:
+    - "5003:80"
+  env_file: Server/CarRentalSystem.Common/Common.env
+  environment:
+    - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Dealers;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+  restart: on-failure
+  volumes:
+    - ./.aspnet/dealers/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+  networks:
+    - carrentalsystem-network
+  depends_on: 
+    - data
+```
+
 Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
 
 ```yml
