@@ -54,10 +54,17 @@ identity:
   env_file: Server/CarRentalSystem.Common/Common.env
   # environment variables they can be accessed programabily from the application
   environment:
-    # Connection String setting
-    - ConnectionStrings__DefaultConnection=yourConnection
+    # Connection string to sqlserver in the container
+    - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Identity;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+  # will restart service (container) if it fails
   restart: on-failure
-  
+  volumes:
+    # From microsoft documentation fix Data Protection Keys storage warning.
+    - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+  networks:
+    - carrentalsystem-network
+  depends_on: 
+    - sqlserver
 ```
 
 Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
