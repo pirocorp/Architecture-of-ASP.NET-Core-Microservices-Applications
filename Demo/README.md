@@ -63,6 +63,7 @@ identity:
     - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
   networks:
     - carrentalsystem-network
+  # the services (containers) on which this service (container) depends will be started first and when the services (containers) are running this container (service) will be started
   depends_on: 
     - sqlserver
 ```
