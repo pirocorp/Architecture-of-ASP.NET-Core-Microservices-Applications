@@ -46,10 +46,10 @@ messages:
     - "15672:15672"
     - "5672:5672"
   hostname: rabbitmq
-    environment:
-      - RABBITMQ_ERLANG_COOKIE=Rand0mR4bbitMqCo0k1e
-      - RABBITMQ_DEFAULT_USER=rabbitmq
-      - RABBITMQ_DEFAULT_PASS=rabbitmq
+  environment:
+    - RABBITMQ_ERLANG_COOKIE=Rand0mR4bbitMqCo0k1e
+    - RABBITMQ_DEFAULT_USER=rabbitmq
+    - RABBITMQ_DEFAULT_PASS=rabbitmq
   networks:
     - carrentalsystem-network
 ```
