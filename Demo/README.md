@@ -12,7 +12,7 @@ Services are all managed containers
 services:
 ```
 
-Data service in this service will be sqlserver. 
+Data service (container) in this service will be sqlserver. 
 
 ```yml
 data:
@@ -33,6 +33,24 @@ data:
     - sqldata:/var/opt/mssql
   networks:
     # this container (service) is part of carrentalsystem-network
+    - carrentalsystem-network
+```
+
+Messages service (container) here will be RabbitMQ
+
+```yml
+messages:
+  container_name: rabbitmq
+  image: rabbitmq:3-management
+  ports:
+    - "15672:15672"
+    - "5672:5672"
+  hostname: "rabbitmq"
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=Rand0mR4bbitMqCo0k1e
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+  networks:
     - carrentalsystem-network
 ```
 
