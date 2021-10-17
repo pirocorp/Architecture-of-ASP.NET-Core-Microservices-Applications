@@ -132,6 +132,110 @@ statistics:
     - data
 ```
 
+Notification service (container)
+
+```yml
+notifications:
+  container_name: notifications
+  build:
+      context: ./Server
+      dockerfile: ./CarRentalSystem.Notifications/Dockerfile
+  ports: 
+      - "50011:80"
+  env_file: 
+      - Server/CarRentalSystem.Common/Common.env
+  environment:
+      - NotificationSettings__AllowedOrigins=http://localhost
+      - MessageQueueSettings__Host=rabbitmq
+      - MessageQueueSettings__UserName=rabbitmquser
+      - MessageQueueSettings__Password=rabbitmqPassword12!
+  restart: on-failure
+  volumes:
+      - ./.aspnet/notifications/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+  networks: 
+      - carrentalsystem-network
+  depends_on:
+      - messages
+```
+
+Client service (container)
+
+```yml
+client:
+  container_name: client
+  build:
+      context: ./Client
+      dockerfile: ./Dockerfile
+      args:
+          configuration: development
+  ports: 
+      - "80:80"
+  restart: on-failure
+  depends_on:
+      - identity
+      - dealers
+      - statistics
+      - notifications
+```
+
+Admin service (container)
+
+```yml
+admin:
+  container_name: admin
+  build:
+      context: ./Server
+      dockerfile: ./CarRentalSystem.Admin/Dockerfile
+  ports: 
+      - "5000:80"
+  env_file: Server/CarRentalSystem.Common/Common.env
+  environment:
+      - ServiceEndpoints__Identity=http://identity
+      - ServiceEndpoints__Dealers=http://dealers
+      - ServiceEndpoints__Statistics=http://statistics
+  restart: on-failure
+  volumes:
+      - ./.aspnet/admin/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+  networks: 
+      - carrentalsystem-network
+  depends_on:
+      - identity
+      - dealers
+      - statistics
+```
+
+Watchdog service (container)
+
+```yml
+watchdog:
+  container_name: watchdog
+  build:
+      context: ./Server
+      dockerfile: ./CarRentalSystem.Watchdog/Dockerfile
+  ports: 
+      - "5500:80"
+  environment:
+      - HealthChecks-UI__HealthChecks__0__Name=Identity
+      - HealthChecks-UI__HealthChecks__0__Uri=http://identity/health
+      - HealthChecks-UI__HealthChecks__1__Name=Dealers
+      - HealthChecks-UI__HealthChecks__1__Uri=http://dealers/health
+      - HealthChecks-UI__HealthChecks__2__Name=Statistics
+      - HealthChecks-UI__HealthChecks__2__Uri=http://statistics/health
+      - HealthChecks-UI__HealthChecks__3__Name=Notifications
+      - HealthChecks-UI__HealthChecks__3__Uri=http://notifications/health
+      - HealthChecks-UI__HealthChecks__4__Name=Admin
+      - HealthChecks-UI__HealthChecks__4__Uri=http://admin/health
+  restart: on-failure
+  networks: 
+      - carrentalsystem-network
+  depends_on:
+      - identity
+      - dealers
+      - statistics
+      - notifications
+      - admin
+```
+
 Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
 
 ```yml
@@ -143,6 +247,7 @@ Volumes are persistance storages for containers because containers are immutable
 ```yml
 volumes:
   sqldata:
+  rabbitmq:
 ```
 
 ### Dockerfiles
