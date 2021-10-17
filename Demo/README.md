@@ -48,8 +48,10 @@ messages:
   hostname: rabbitmq
   environment:
     - RABBITMQ_ERLANG_COOKIE=Rand0mR4bbitMqCo0k1e
-    - RABBITMQ_DEFAULT_USER=rabbitmq
-    - RABBITMQ_DEFAULT_PASS=rabbitmq
+    - RABBITMQ_DEFAULT_USER=rabbitmquser
+    - RABBITMQ_DEFAULT_PASS=rabbitmqPassword12!
+  volumes:
+    - rabbitmq:/var/lib/rabbitmq/mnesia
   networks:
     - carrentalsystem-network
 ```
@@ -130,6 +132,110 @@ statistics:
     - data
 ```
 
+Notification service (container)
+
+```yml
+notifications:
+  container_name: notifications
+  build:
+      context: ./Server
+      dockerfile: ./CarRentalSystem.Notifications/Dockerfile
+  ports: 
+      - "50011:80"
+  env_file: 
+      - Server/CarRentalSystem.Common/Common.env
+  environment:
+      - NotificationSettings__AllowedOrigins=http://localhost
+      - MessageQueueSettings__Host=rabbitmq
+      - MessageQueueSettings__UserName=rabbitmquser
+      - MessageQueueSettings__Password=rabbitmqPassword12!
+  restart: on-failure
+  volumes:
+      - ./.aspnet/notifications/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+  networks: 
+      - carrentalsystem-network
+  depends_on:
+      - messages
+```
+
+Client service (container)
+
+```yml
+client:
+  container_name: client
+  build:
+      context: ./Client
+      dockerfile: ./Dockerfile
+      args:
+          configuration: development
+  ports: 
+      - "80:80"
+  restart: on-failure
+  depends_on:
+      - identity
+      - dealers
+      - statistics
+      - notifications
+```
+
+Admin service (container)
+
+```yml
+admin:
+  container_name: admin
+  build:
+      context: ./Server
+      dockerfile: ./CarRentalSystem.Admin/Dockerfile
+  ports: 
+      - "5000:80"
+  env_file: Server/CarRentalSystem.Common/Common.env
+  environment:
+      - ServiceEndpoints__Identity=http://identity
+      - ServiceEndpoints__Dealers=http://dealers
+      - ServiceEndpoints__Statistics=http://statistics
+  restart: on-failure
+  volumes:
+      - ./.aspnet/admin/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+  networks: 
+      - carrentalsystem-network
+  depends_on:
+      - identity
+      - dealers
+      - statistics
+```
+
+Watchdog service (container)
+
+```yml
+watchdog:
+  container_name: watchdog
+  build:
+      context: ./Server
+      dockerfile: ./CarRentalSystem.Watchdog/Dockerfile
+  ports: 
+      - "5500:80"
+  environment:
+      - HealthChecks-UI__HealthChecks__0__Name=Identity
+      - HealthChecks-UI__HealthChecks__0__Uri=http://identity/health
+      - HealthChecks-UI__HealthChecks__1__Name=Dealers
+      - HealthChecks-UI__HealthChecks__1__Uri=http://dealers/health
+      - HealthChecks-UI__HealthChecks__2__Name=Statistics
+      - HealthChecks-UI__HealthChecks__2__Uri=http://statistics/health
+      - HealthChecks-UI__HealthChecks__3__Name=Notifications
+      - HealthChecks-UI__HealthChecks__3__Uri=http://notifications/health
+      - HealthChecks-UI__HealthChecks__4__Name=Admin
+      - HealthChecks-UI__HealthChecks__4__Uri=http://admin/health
+  restart: on-failure
+  networks: 
+      - carrentalsystem-network
+  depends_on:
+      - identity
+      - dealers
+      - statistics
+      - notifications
+      - admin
+```
+
 Networks are used to allow comunications between containers. Only containers in one network can comunicate with each other freely.
 
 ```yml
@@ -141,6 +247,7 @@ Volumes are persistance storages for containers because containers are immutable
 ```yml
 volumes:
   sqldata:
+  rabbitmq:
 ```
 
 ### Dockerfiles
@@ -256,4 +363,125 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "CarRentalSystem.Statistics.dll"]
+```
+
+#### Notifications service dockerfile
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /src
+COPY ["CarRentalSystem.Notifications/CarRentalSystem.Notifications.csproj", "CarRentalSystem.Notifications/"]
+COPY ["CarRentalSystem.Common/CarRentalSystem.Common.csproj", "CarRentalSystem.Common/"]
+RUN dotnet restore "CarRentalSystem.Notifications/CarRentalSystem.Notifications.csproj"
+COPY . .
+WORKDIR "/src/CarRentalSystem.Notifications"
+RUN dotnet build "CarRentalSystem.Notifications.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "CarRentalSystem.Notifications.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "CarRentalSystem.Notifications.dll"]
+```
+
+#### Client dockerfile
+
+```dockerfile
+# base image
+FROM node:12.2.0 as build
+
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+COPY package.json /app/package.json
+RUN npm install
+RUN npm install -g @angular/cli@10.1.2
+
+# add app
+COPY . /app
+
+# generate build
+ARG configuration=production
+
+RUN ng build --output-path=dist --configuration=$configuration
+
+# base image
+FROM nginx:1.16.0-alpine
+
+# Remove default Nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy Nginx configuration
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# copy artifact build from the 'build environment'
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# expose port 80
+EXPOSE 80
+
+# run nginx
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+#### Admin service dockerfile
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /src
+COPY ["CarRentalSystem.Admin/CarRentalSystem.Admin.csproj", "CarRentalSystem.Admin/"]
+COPY ["CarRentalSystem.Common/CarRentalSystem.Common.csproj", "CarRentalSystem.Common/"]
+RUN dotnet restore "CarRentalSystem.Admin/CarRentalSystem.Admin.csproj"
+COPY . .
+WORKDIR "/src/CarRentalSystem.Admin"
+RUN dotnet build "CarRentalSystem.Admin.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "CarRentalSystem.Admin.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "CarRentalSystem.Admin.dll"]
+```
+
+#### Watchdog service dockerfile
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /src
+COPY ["CarRentalSystem.Watchdog/CarRentalSystem.Watchdog.csproj", "CarRentalSystem.Watchdog/"]
+RUN dotnet restore "CarRentalSystem.Watchdog/CarRentalSystem.Watchdog.csproj"
+COPY . .
+WORKDIR "/src/CarRentalSystem.Watchdog"
+RUN dotnet build "CarRentalSystem.Watchdog.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "CarRentalSystem.Watchdog.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "CarRentalSystem.Watchdog.dll"]
 ```
