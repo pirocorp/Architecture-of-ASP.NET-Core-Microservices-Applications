@@ -33,10 +33,10 @@ namespace CarRentalSystem.Admin
                 .AddTokenAuthentication(this.Configuration)
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddTransient<JwtCookieAuthenticationMiddleware>()
-                .AddExternalService<IIdentityService>(this.Configuration, serviceEndpoints.Identity)
-                .AddExternalService<IStatisticsService>(this.Configuration, serviceEndpoints.Statistics)
-                .AddExternalService<IDealersService>(this.Configuration, serviceEndpoints.Dealers)
-                .AddControllersWithViews(options => options
+                .AddExternalService<IIdentityService>(serviceEndpoints.Identity)
+                .AddExternalService<IStatisticsService>(serviceEndpoints.Statistics)
+                .AddExternalService<IDealersService>(serviceEndpoints.Dealers)
+                .AddControllers(options => options
                     .Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
         }
 

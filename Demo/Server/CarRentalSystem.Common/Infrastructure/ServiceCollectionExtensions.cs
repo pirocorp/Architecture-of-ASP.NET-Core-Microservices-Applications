@@ -1,11 +1,15 @@
 ﻿namespace CarRentalSystem.Common.Infrastructure
 {
     using System;
+    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Reflection;
     using System.Text;
+    using GreenPipes;
+    using Hangfire;
     using MassTransit;
+    using Messages;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
@@ -14,6 +18,7 @@
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
     using Model;
+    using Polly;
     using Refit;
     using Services.Identity;
     using Swagger;
@@ -33,6 +38,7 @@
                 .AddApplicationSettings(configuration)
                 .AddTokenAuthentication(configuration)
                 .AddAutoMapperProfile(Assembly.GetCallingAssembly())
+                .AddHealth(configuration)
                 .AddControllers();
 
             services
@@ -48,7 +54,19 @@
             => services
                 .AddScoped<DbContext, TDbContext>()
                 .AddDbContext<TDbContext>(options 
-                    => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                    => options.UseSqlServer(
+                        configuration.GetDefaultConnectionString(), 
+                        sqlOptions =>
+                        {
+                            // Sometimes the database may not be available for a couple of seconds
+                            // The “Retries with exponential back off” solution works great in this case
+                            // Entity Framework & SQL Server has built-in features to support connection retries
+                            sqlOptions.EnableRetryOnFailure(
+                                maxRetryCount: 10,
+                                maxRetryDelay: TimeSpan.FromSeconds(30),
+                                errorNumbersToAdd: null);
+
+                        }));
 
         public static IServiceCollection AddApplicationSettings(
             this IServiceCollection services, 
@@ -134,7 +152,6 @@
 
         public static IServiceCollection AddExternalService<TService>(
             this IServiceCollection services,
-            IConfiguration configuration,
             string baseAddress)
             where TService : class
         {
@@ -161,13 +178,36 @@
 
             services
                 .AddRefitClient<TService>()
-                .ConfigureHttpClient(Configurator);
+                .ConfigureHttpClient(Configurator)
+                // If service is unavailable for couple of seconds.
+                // Retry 5 times with exponential back off
+                .AddTransientHttpErrorPolicy(policy 
+                    => policy
+                        .OrResult(result => result.StatusCode == HttpStatusCode.NotFound)
+                        .WaitAndRetryAsync(10, retry => TimeSpan.FromSeconds(Math.Pow(2, retry))))
+                // Circuit Breaker after 5 failed retries stop for 30 second before continue.
+                .AddTransientHttpErrorPolicy(policy 
+                    => policy.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            return services;
+        }
+
+        public static IServiceCollection AddHealth(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var healthChecks = services.AddHealthChecks();
+
+            healthChecks.AddSqlServer(configuration.GetDefaultConnectionString());
+
+            healthChecks.AddRabbitMQ(rabbitConnectionString: "amqp://rabbitmq:rabbitmq@rabbitmq/");
 
             return services;
         }
 
         public static IServiceCollection AddMessaging(
             this IServiceCollection services,
+            IConfiguration configuration,
             params Type[] consumers)
         {
             services
@@ -183,13 +223,42 @@
                             host.Password("rabbitmq");
                         });
 
-                        consumers.ForEach(consumer 
+                        consumers.ForEach(consumer
                             => rmq.ReceiveEndpoint(
-                                consumer.FullName, 
-                                endpoint => endpoint.ConfigureConsumer(bus, consumer)));
+                                consumer.FullName,
+                                endpoint =>
+                                {
+                                    // Good prefetch count is number of tasks that can be processed times 2.
+                                    endpoint.PrefetchCount = 12; // Number of CPUs is default
+                                    endpoint.UseMessageRetry(x => x.Interval(10, 500));
+                                    endpoint.ConfigureConsumer(bus, consumer);
+                                }));
                     }));
                 })
-                .AddMassTransitHostedService();
+                .AddMassTransitHostedService()
+                .AddMessagesHostedService(configuration);
+
+            return services;
+        }
+
+        public static IServiceCollection AddMessagesHostedService(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            // Add Hangfire services.
+            services
+                .AddHangfire(config => config
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(configuration.GetDefaultConnectionString()));
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
+
+            // Register MessagesHostedService IHostedService in IoC Container.
+            // And asp.net core will start it.
+            services.AddHostedService<MessagesHostedService>();
 
             return services;
         }

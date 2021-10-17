@@ -29,8 +29,8 @@ namespace CarRentalSystem.Dealers.Gateway
                 .AddTokenAuthentication(this.Configuration)
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddTransient<JwtHeaderAuthenticationMiddleware>()
-                .AddExternalService<ICarAdViewsService>(this.Configuration, serviceEndpoints.Statistics)
-                .AddExternalService<ICarAdsService>(this.Configuration, serviceEndpoints.Dealers)
+                .AddExternalService<ICarAdViewsService>(serviceEndpoints.Statistics)
+                .AddExternalService<ICarAdsService>(serviceEndpoints.Dealers)
                 .AddControllers();
 
             services.AddSwagger("CarRentalSystem.Dealers.Gateway", "v1");

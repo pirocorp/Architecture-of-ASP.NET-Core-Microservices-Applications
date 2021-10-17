@@ -26,7 +26,7 @@ namespace CarRentalSystem.Statistics
                 .AddTransient<IDataSeeder, StatisticsDataSeeder>()
                 .AddTransient<IStatisticsService, StatisticsService>()
                 .AddTransient<ICarAdViewService, CarAdViewService>()
-                .AddMessaging(typeof(CarAdCreatedConsumer));
+                .AddMessaging(this.Configuration, typeof(CarAdCreatedConsumer));
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

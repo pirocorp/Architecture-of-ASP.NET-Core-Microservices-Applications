@@ -3,14 +3,16 @@ using CarRentalSystem.Dealers.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRentalSystem.Dealers.Data.Migrations
 {
     [DbContext(typeof(DealersDbContext))]
-    partial class DealersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211015152748_MessagesTable")]
+    partial class MessagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

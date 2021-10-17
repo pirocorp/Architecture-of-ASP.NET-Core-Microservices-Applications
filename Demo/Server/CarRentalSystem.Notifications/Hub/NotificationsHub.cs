@@ -16,7 +16,7 @@
             }
         }
 
-        public override async Task OnDisconnectedAsync(Exception? exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
             if (this.Context.User?.Identity?.IsAuthenticated ?? false)
             {

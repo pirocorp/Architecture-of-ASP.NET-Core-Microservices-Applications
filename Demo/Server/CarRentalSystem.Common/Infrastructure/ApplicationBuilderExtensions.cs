@@ -1,7 +1,11 @@
 ﻿namespace CarRentalSystem.Common.Infrastructure
 {
     using System.Reflection;
+    using Hangfire;
+    using HealthChecks.UI.Client;
+    using Messages;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +23,12 @@
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetCallingAssembly().GetName().Name));
+
+                if (app.ApplicationServices.GetService<MessagesHostedService>() != null)
+                {
+                    // Register the dashboard (available at /hangfire) 
+                    app.UseHangfireDashboard();
+                }
             }
 
             app
@@ -30,8 +40,16 @@
                     .AllowAnyMethod())
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseEndpoints(endpoints => endpoints
-                    .MapControllers());
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints
+                        .MapHealthChecks("/health", new HealthCheckOptions
+                        {
+                            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                        });
+
+                    endpoints.MapControllers();
+                });
 
             return app;
         }

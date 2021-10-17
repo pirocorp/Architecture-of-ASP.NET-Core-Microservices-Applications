@@ -1,10 +1,13 @@
 ﻿namespace CarRentalSystem.Common.Services
 {
     using System.Threading.Tasks;
+    using Data.Models;
 
     public interface IDataService<in TEntity>
         where TEntity : class
     {
-        Task Save(TEntity entity);
+        Task MarkMessageAsPublished(int id);
+
+        Task Save(TEntity entity, params Message[] messages);
     }
 }

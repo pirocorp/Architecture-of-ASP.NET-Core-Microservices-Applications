@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refit.HttpClientFactory" Version="6.0.94" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CarRentalSystem.Common\CarRentalSystem.Common.csproj" />
   </ItemGroup>
 

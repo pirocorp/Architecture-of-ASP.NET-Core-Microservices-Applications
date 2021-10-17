@@ -20,7 +20,7 @@ namespace CarRentalSystem.Schedule
             => services
                 .AddWebService<ScheduleDbContext>(this.Configuration)
                 .AddTransient<IRentedCarService, RentedCarService>()
-                .AddMessaging(typeof(CarAdUpdatedConsumer));
+                .AddMessaging(this.Configuration, typeof(CarAdUpdatedConsumer));
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
