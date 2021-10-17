@@ -37,7 +37,6 @@ export class CreateComponent implements OnInit {
 
   create() {
     this.carsService.createCar(this.carForm.value).subscribe(res => {
-      this.toastr.success("Success");
       this.router.navigate(['cars', 'mine'])
     })
   }

@@ -27,7 +27,7 @@ namespace CarRentalSystem.Dealers
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<ICarAdService, CarAdService>()
                 .AddTransient<IManufacturerService, ManufacturerService>()
-                .AddMessaging(this.Configuration);
+                .AddMessaging();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

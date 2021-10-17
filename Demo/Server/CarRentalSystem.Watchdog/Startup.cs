@@ -16,7 +16,10 @@ namespace CarRentalSystem.Watchdog
         {
             app
                 .UseRouting()
-                .UseEndpoints(endpoints => endpoints.MapHealthChecksUI());
+                .UseEndpoints(endpoints 
+                    => endpoints
+                        .MapHealthChecksUI(healthChecks 
+                            => healthChecks.UIPath = "/healthchecks"));
         }
     }
 }

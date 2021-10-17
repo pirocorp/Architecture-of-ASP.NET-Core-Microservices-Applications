@@ -23,7 +23,7 @@ namespace CarRentalSystem.Notifications
             => services
                 .AddCors()
                 .AddTokenAuthentication(this.Configuration, JwtConfiguration.BearerEvents)
-                .AddMessaging(this.Configuration, typeof(CarAdCreatedConsumer))
+                .AddMessaging(typeof(CarAdCreatedConsumer))
                 .AddSignalR();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

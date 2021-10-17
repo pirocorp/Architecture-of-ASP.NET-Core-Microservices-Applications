@@ -8,6 +8,7 @@
     using Hangfire;
     using MassTransit;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
     /// <summary>
@@ -18,16 +19,15 @@
         // This Hangfire job manager
         private readonly IRecurringJobManager recurringJob;
         private readonly IBus publisher;
-        private readonly DbContext data;
+        private readonly IServiceProvider services;
 
         public MessagesHostedService(
             IRecurringJobManager recurringJob, 
-            IBus publisher, 
-            DbContext data)
+            IBus publisher, IServiceProvider services)
         {
             this.recurringJob = recurringJob;
             this.publisher = publisher;
-            this.data = data;
+            this.services = services;
         }
 
         /// <summary>
@@ -57,7 +57,10 @@
         // What this cron job will do.
         public void ProcessPendingMessages()
         {
-            var messages = this.data
+            var scope = this.services.CreateScope();
+            var data = scope.ServiceProvider.GetService<DbContext>();
+
+            var messages = data
                 .Set<Message>()
                 .Where(m => !m.Published)
                 .OrderBy(m => m.Id)
@@ -69,7 +72,7 @@
 
                 message.MarkAsPublished();
 
-                this.data.SaveChanges();
+                data.SaveChanges();
             }
         }
     }

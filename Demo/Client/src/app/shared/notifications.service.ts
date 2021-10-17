@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,14 @@ export class NotificationsService {
         const options = {
             accessTokenFactory: () => {
                 return localStorage.getItem('token');
-            }
+            },
+            skipNegotiation: true,
+            transport: signalR.HttpTransportType.WebSockets
         };
 
         this.hubConnection = new signalR.HubConnectionBuilder()
-                                .withUrl('https://localhost:5011/notifications', options)
-                                .build();
+            .withUrl(environment.notificationsUrl + 'notifications', options)
+            .build();
 
         this.hubConnection
             .start()
@@ -28,7 +31,7 @@ export class NotificationsService {
 
         this.hubConnection.on('ReceiveNotification', (data) => {
             console.log(data);
-            this.toastr.success(`A new car - ${data.manufacturer} ${data.model} for just ${data.pricePerDay}!!!`, "New Car!");
+            this.toastr.success(`${data.manufacturer} ${data.model} for just $${data.pricePerDay}!!!`, "New Car!");
         });
     }
 }

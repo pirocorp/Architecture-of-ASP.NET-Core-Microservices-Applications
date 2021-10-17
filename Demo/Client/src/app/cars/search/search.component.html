@@ -1,10 +1,10 @@
 <form [formGroup]="searchForm" (ngSubmit)="search()" >
     <div class="form-group">
-      <label for="exampleFormControlInput1">Manifacturer: </label>
+      <label for="exampleFormControlInput1">Manufacturer: </label>
       <input type="text" class="form-control" formControlName="manufacturer">
     </div>
     <div class="form-group">
-      <label for="exampleFormControlInput1">Dealer name: </label>
+      <label for="exampleFormControlInput1">Dealer Name: </label>
       <input type="text" class="form-control" formControlName="dealer">
     </div>
     <div class="form-group">
@@ -14,11 +14,11 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="exampleFormControlSelect2">Select min price per day: </label>
+      <label for="exampleFormControlSelect2">Minimum Price Per Day: </label>
       <input type="number" class="form-control" formControlName="minPricePerDay">
     </div>
     <div class="form-group">
-      <label for="exampleFormControlSelect2">Select max price per day: </label>
+      <label for="exampleFormControlSelect2">Maximum Price Per Day: </label>
       <input type="number" class="form-control" formControlName="maxPricePerDay">
     </div>
     <button class="btn btn-primary" type="submit">Search</button>

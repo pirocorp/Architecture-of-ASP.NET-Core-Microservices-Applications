@@ -200,14 +200,13 @@
 
             healthChecks.AddSqlServer(configuration.GetDefaultConnectionString());
 
-            healthChecks.AddRabbitMQ(rabbitConnectionString: "amqp://rabbitmq:rabbitmq@rabbitmq/");
+            healthChecks.AddRabbitMQ(rabbitConnectionString: "amqp://rabbitmquser:rabbitmqPassword12!@rabbitmq/");
 
             return services;
         }
 
         public static IServiceCollection AddMessaging(
             this IServiceCollection services,
-            IConfiguration configuration,
             params Type[] consumers)
         {
             services
@@ -219,8 +218,8 @@
                     {
                         rmq.Host("rabbitmq", host =>
                         {
-                            host.Username("rabbitmq");
-                            host.Password("rabbitmq");
+                            host.Username("rabbitmquser");
+                            host.Password("rabbitmqPassword12!");
                         });
 
                         consumers.ForEach(consumer
@@ -235,8 +234,7 @@
                                 }));
                     }));
                 })
-                .AddMassTransitHostedService()
-                .AddMessagesHostedService(configuration);
+                .AddMassTransitHostedService();
 
             return services;
         }

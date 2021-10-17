@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalSystem.Notificatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalSystem.Watchdog", "CarRentalSystem.Watchdog\CarRentalSystem.Watchdog.csproj", "{16FE8851-9545-48FD-ACA8-63E205C84A23}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0CC45D9D-9953-4764-888F-9E16D6ED0E00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{16FE8851-9545-48FD-ACA8-63E205C84A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16FE8851-9545-48FD-ACA8-63E205C84A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16FE8851-9545-48FD-ACA8-63E205C84A23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CC45D9D-9953-4764-888F-9E16D6ED0E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CC45D9D-9953-4764-888F-9E16D6ED0E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CC45D9D-9953-4764-888F-9E16D6ED0E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CC45D9D-9953-4764-888F-9E16D6ED0E00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

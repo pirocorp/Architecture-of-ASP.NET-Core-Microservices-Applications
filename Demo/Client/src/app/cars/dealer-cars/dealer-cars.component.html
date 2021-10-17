@@ -10,16 +10,18 @@
                 <img [src]="c.imageUrl" class="card-img-top" alt="Car image">
                 <div class="card-body">
                   <h5 class="card-title">{{ c.manufacturer }}</h5>
-                  <p class="card-text">{{ c.pricePerDay }}</p>
-                  <a routerLink="/cars/{{c.id}}" class="btn btn-primary">Details</a>
-                  <a routerLink="/cars/{{c.id}}/edit" class="btn btn-warning">Edit</a>
-                  <button (click)="openModal(c.id)" class="btn btn-danger">Delete</button>
+                  <p class="card-text">${{ c.pricePerDay }}</p>
+                  <div *ngIf="c.isAvailable">
+                    <a routerLink="/cars/{{c.id}}" class="btn btn-primary">Details</a>
+                    <a routerLink="/cars/{{c.id}}/edit" class="btn btn-warning">Edit</a>
+                    <button (click)="openModal(c.id)" class="btn btn-danger">Delete</button>
+                  </div>
                 </div>
               </div>
         </div>
     </div>
     <ng-template class="row" #noCars>
-      <h1>No cars found</h1>
+      <h1>No Cars Found</h1>
     </ng-template>
 </div>
 

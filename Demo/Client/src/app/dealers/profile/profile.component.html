@@ -7,7 +7,7 @@
                         <input type="name" class="form-control" formControlName="name">
                     </div>
                     <div class="form-group">
-                        <label>Phone</label>
+                        <label>Phone Number</label>
                         <input type="text" class="form-control" formControlName="phoneNumber">
                     </div>
                     <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Edit</button>
@@ -19,11 +19,11 @@
             <div class="col-lg-5">
                 <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
                     <div class="form-group">
-                        <label>Current password</label>
+                        <label>Current Password</label>
                         <input type="password" class="form-control" formControlName="currentPassword">
                     </div>
                     <div class="form-group">
-                        <label>New password</label>
+                        <label>New Password</label>
                         <input type="password" class="form-control" formControlName="newPassword">
                     </div>
                     <button type="submit" class="btn btn-primary" [disabled]="changePasswordForm.invalid">Change password</button>

@@ -32,11 +32,11 @@ services:
   identity:    
     container_name: identity  
     build:
-      context: ./Server
+      context: ./
       dockerfile: ./CarRentalSystem.Identity/Dockerfile
     ports:
       - "5001:80"
-    env_file: Server/CarRentalSystem.Common/Common.env
+    env_file: CarRentalSystem.Common/Common.env
     environment:
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Identity;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
       - IdentitySettings__AdminPassword=adminpass12!
@@ -51,14 +51,14 @@ services:
   dealers:    
     container_name: dealers  
     build:
-      context: ./Server
+      context: ./
       dockerfile: ./CarRentalSystem.Dealers/Dockerfile
     ports:
       - "5003:80"
-    env_file: Server/CarRentalSystem.Common/Common.env
+    env_file: CarRentalSystem.Common/Common.env
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDealersDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
-      - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalDealersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Dealers;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      #- ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalDealersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
       - MessageQueueSettings__Host=rabbitmq
       - MessageQueueSettings__UserName=rabbitmquser
       - MessageQueueSettings__Password=rabbitmqPassword12!
@@ -74,14 +74,14 @@ services:
   statistics:    
     container_name: statistics  
     build:
-      context: ./Server
+      context: ./
       dockerfile: ./CarRentalSystem.Statistics/Dockerfile
     ports:
       - "5005:80"
-    env_file: Server/CarRentalSystem.Common/Common.env
+    env_file: CarRentalSystem.Common/Common.env
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalStatisticsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
-      - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalStatisticsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Statistics;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      #- ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalStatisticsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
       - MessageQueueSettings__Host=rabbitmq
       - MessageQueueSettings__UserName=rabbitmquser
       - MessageQueueSettings__Password=rabbitmqPassword12!
@@ -97,12 +97,12 @@ services:
   notifications:
     container_name: notifications
     build:
-        context: ./Server
+        context: ./
         dockerfile: ./CarRentalSystem.Notifications/Dockerfile
     ports: 
         - "50011:80"
     env_file: 
-        - Server/CarRentalSystem.Common/Common.env
+        - CarRentalSystem.Common/Common.env
     environment:
         - NotificationSettings__AllowedOrigins=http://localhost
         - MessageQueueSettings__Host=rabbitmq
@@ -115,31 +115,15 @@ services:
         - carrentalsystem-network
     depends_on:
         - messages
-        
-  client:
-    container_name: client
-    build:
-        context: ./Client
-        dockerfile: ./Dockerfile
-        args:
-            configuration: development
-    ports: 
-        - "80:80"
-    restart: on-failure
-    depends_on:
-        - identity
-        - dealers
-        - statistics
-        - notifications
-        
+            
   admin:
     container_name: admin
     build:
-        context: ./Server
+        context: ./
         dockerfile: ./CarRentalSystem.Admin/Dockerfile
     ports: 
-        - "5400:80"
-    env_file: Server/CarRentalSystem.Common/Common.env
+        - "5000:80"
+    env_file: CarRentalSystem.Common/Common.env
     environment:
         - ServiceEndpoints__Identity=http://identity
         - ServiceEndpoints__Dealers=http://dealers
@@ -157,7 +141,7 @@ services:
   watchdog:
     container_name: watchdog
     build:
-        context: ./Server
+        context: ./
         dockerfile: ./CarRentalSystem.Watchdog/Dockerfile
     ports: 
         - "5500:80"
