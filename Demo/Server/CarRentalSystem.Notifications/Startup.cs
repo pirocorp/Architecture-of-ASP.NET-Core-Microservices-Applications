@@ -22,8 +22,16 @@ namespace CarRentalSystem.Notifications
         public void ConfigureServices(IServiceCollection services)
             => services
                 .AddCors()
-                .AddTokenAuthentication(this.Configuration, JwtConfiguration.BearerEvents)
-                .AddMessaging(typeof(CarAdCreatedConsumer))
+                .AddTokenAuthentication(
+                    this.Configuration, 
+                    JwtConfiguration.BearerEvents)
+                .AddHealth(
+                    this.Configuration, 
+                    databaseHealthChecks: false)
+                .AddMessaging(
+                    this.Configuration, 
+                    usePolling: false,
+                    consumers: typeof(CarAdCreatedConsumer))
                 .AddSignalR();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,19 +41,22 @@ namespace CarRentalSystem.Notifications
                 app.UseDeveloperExceptionPage();
             }
 
+            var allowedOrigins = this.Configuration
+                .GetSection(nameof(NotificationSettings))
+                .GetValue<string>(nameof(NotificationSettings.AllowedOrigins));
+
             app
                 .UseRouting()
                 .UseCors(options => options
-                    .WithOrigins("http://localhost:4200")
+                    .WithOrigins(allowedOrigins)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials())
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapHub<NotificationsHub>("/notifications");
-                });
+                .UseEndpoints(endpoints =>endpoints
+                    .MapHealthChecks()
+                    .MapHub<NotificationsHub>("/notifications"));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CarRentalSystem.Common.Services
+﻿namespace CarRentalSystem.Common.Services.Data
 {
     public interface IDataSeeder
     {

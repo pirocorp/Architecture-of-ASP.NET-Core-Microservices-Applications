@@ -11,6 +11,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Services;
+    using Services.Data;
 
     public static class ApplicationBuilderExtensions
     {

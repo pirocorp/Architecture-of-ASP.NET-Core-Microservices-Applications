@@ -31,6 +31,7 @@ services:
   
   identity:    
     container_name: identity  
+    #image: pirocorp/carrentalsystem-identity-service:1.0
     build:
       context: ./Server
       dockerfile: ./CarRentalSystem.Identity/Dockerfile
@@ -50,6 +51,7 @@ services:
       
   dealers:    
     container_name: dealers  
+    #image: pirocorp/carrentalsystem-dealers-service:1.0
     build:
       context: ./Server
       dockerfile: ./CarRentalSystem.Dealers/Dockerfile
@@ -57,8 +59,8 @@ services:
       - "5003:80"
     env_file: Server/CarRentalSystem.Common/Common.env
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDealersDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
-      - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalDealersCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Dealers;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalDatabase.Dealers.CronJobs;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
       - MessageQueueSettings__Host=rabbitmq
       - MessageQueueSettings__UserName=rabbitmquser
       - MessageQueueSettings__Password=rabbitmqPassword12!
@@ -72,7 +74,8 @@ services:
       - messages
       
   statistics:    
-    container_name: statistics  
+    container_name: statistics 
+    #image: pirocorp/carrentalsystem-statistics-service:1.0    
     build:
       context: ./Server
       dockerfile: ./CarRentalSystem.Statistics/Dockerfile
@@ -80,8 +83,8 @@ services:
       - "5005:80"
     env_file: Server/CarRentalSystem.Common/Common.env
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalStatisticsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
-      - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalStatisticsCronJobsDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CarRentalDatabase.Statistics;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      - ConnectionStrings__CronJobsConnection=Server=sqlserver;Database=CarRentalDatabase.Statistics.CronJobs;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
       - MessageQueueSettings__Host=rabbitmq
       - MessageQueueSettings__UserName=rabbitmquser
       - MessageQueueSettings__Password=rabbitmqPassword12!
@@ -96,6 +99,7 @@ services:
       
   notifications:
     container_name: notifications
+    #image: pirocorp/carrentalsystem-notifications-service:1.0   
     build:
         context: ./Server
         dockerfile: ./CarRentalSystem.Notifications/Dockerfile
@@ -118,6 +122,7 @@ services:
         
   client:
     container_name: client
+    #image: pirocorp/carrentalsystem-user-client:1.0   
     build:
         context: ./Client
         dockerfile: ./Dockerfile
@@ -134,6 +139,7 @@ services:
         
   admin:
     container_name: admin
+    #image: pirocorp/carrentalsystem-admin-client:1.0
     build:
         context: ./Server
         dockerfile: ./CarRentalSystem.Admin/Dockerfile
@@ -156,6 +162,7 @@ services:
         
   watchdog:
     container_name: watchdog
+    #image: pirocorp/carrentalsystem-watchdog-service:1.0   
     build:
         context: ./Server
         dockerfile: ./CarRentalSystem.Watchdog/Dockerfile

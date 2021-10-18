@@ -1,7 +1,7 @@
-﻿namespace CarRentalSystem.Common.Services
+﻿namespace CarRentalSystem.Common.Services.Data
 {
     using System.Threading.Tasks;
-    using Data.Models;
+    using Common.Data.Models;
 
     public interface IDataService<in TEntity>
         where TEntity : class

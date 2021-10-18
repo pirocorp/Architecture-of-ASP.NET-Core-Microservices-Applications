@@ -1,29 +1,48 @@
 ﻿namespace CarRentalSystem.Statistics.Data
 {
     using System.Linq;
-    using Common.Services;
+    using Common;
+    using Common.Services.Data;
+    using Microsoft.Extensions.Options;
     using Models;
 
     public class StatisticsDataSeeder : IDataSeeder
     {
         private readonly StatisticsDbContext db;
+        private readonly ApplicationSettings applicationSettings;
 
-        public StatisticsDataSeeder(StatisticsDbContext db) => this.db = db;
+        public StatisticsDataSeeder(
+            StatisticsDbContext db,
+            IOptions<ApplicationSettings> applicationSettings)
+        {
+            this.db = db;
+            this.applicationSettings = applicationSettings.Value;
+        }
 
         public void SeedData()
         {
-            if (this.db.Statistics.Any())
+            if (!this.db.Statistics.Any())
             {
-                return;
+                this.db.Statistics.Add(new Statistics
+                {
+                    TotalCarAds = 0,
+                    TotalRentedCars = 0
+                });
+
+                this.db.SaveChanges();
             }
 
-            this.db.Statistics.Add(new Statistics
+            if (this.applicationSettings.SeedInitialData)
             {
-                TotalCarAds = 0,
-                TotalRentedCars = 0
-            });
+                var statistics = this.db.Statistics.Single();
 
-            this.db.SaveChanges();
+                if (statistics.TotalCarAds == 0)
+                {
+                    statistics.TotalCarAds = 3;
+                }
+
+                this.db.SaveChanges();
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace CarRentalSystem.Common.Services
+﻿namespace CarRentalSystem.Common.Services.Data
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using Data.Models;
+    using Common.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     public abstract class DataService<TEntity> : IDataService<TEntity>

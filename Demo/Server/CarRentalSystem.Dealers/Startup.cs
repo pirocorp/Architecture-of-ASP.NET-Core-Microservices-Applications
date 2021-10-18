@@ -1,7 +1,7 @@
 namespace CarRentalSystem.Dealers
 {
     using Common.Infrastructure;
-    using Common.Services;
+    using Common.Services.Data;
     using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -27,7 +27,7 @@ namespace CarRentalSystem.Dealers
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<ICarAdService, CarAdService>()
                 .AddTransient<IManufacturerService, ManufacturerService>()
-                .AddMessaging();
+                .AddMessaging(this.Configuration);
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

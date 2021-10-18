@@ -8,10 +8,12 @@
     using System.Text;
     using GreenPipes;
     using Hangfire;
+    using Hangfire.SqlServer;
     using MassTransit;
     using Messages;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -30,15 +32,20 @@
         public static IServiceCollection AddWebService<TDbContext>(
             this IServiceCollection services, 
             IConfiguration configuration,
+            bool databaseHealthChecks = true,
+            bool messagingHealthChecks = true,
             string serviceVersion = "v1")
             where TDbContext : DbContext
         {
+            var connectionString = configuration.GetDefaultConnectionString();
+            CreateDatabase(connectionString);
+
             services
                 .AddDatabase<TDbContext>(configuration)
                 .AddApplicationSettings(configuration)
                 .AddTokenAuthentication(configuration)
+                .AddHealth(configuration, databaseHealthChecks, messagingHealthChecks)
                 .AddAutoMapperProfile(Assembly.GetCallingAssembly())
-                .AddHealth(configuration)
                 .AddControllers();
 
             services
@@ -56,24 +63,21 @@
                 .AddDbContext<TDbContext>(options 
                     => options.UseSqlServer(
                         configuration.GetDefaultConnectionString(), 
-                        sqlOptions =>
-                        {
-                            // Sometimes the database may not be available for a couple of seconds
-                            // The “Retries with exponential back off” solution works great in this case
-                            // Entity Framework & SQL Server has built-in features to support connection retries
-                            sqlOptions.EnableRetryOnFailure(
-                                maxRetryCount: 10,
-                                maxRetryDelay: TimeSpan.FromSeconds(30),
-                                errorNumbersToAdd: null);
-
-                        }));
+                        // Sometimes the database may not be available for a couple of seconds
+                        // The “Retries with exponential back off” solution works great in this case
+                        // Entity Framework & SQL Server has built-in features to support connection retries
+                        sqlOptions => sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null)));
 
         public static IServiceCollection AddApplicationSettings(
             this IServiceCollection services, 
             IConfiguration configuration)
             => services
-                .Configure<ApplicationSettings>(configuration
-                    .GetSection(nameof(ApplicationSettings)));
+                .Configure<ApplicationSettings>(
+                    configuration.GetSection(nameof(ApplicationSettings)),
+                    config => config.BindNonPublicProperties = true);
 
         public static IServiceCollection AddTokenAuthentication(
             this IServiceCollection services, 
@@ -194,21 +198,40 @@
 
         public static IServiceCollection AddHealth(
             this IServiceCollection services,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            bool databaseHealthChecks = true,
+            bool messagingHealthChecks = true)
         {
             var healthChecks = services.AddHealthChecks();
 
-            healthChecks.AddSqlServer(configuration.GetDefaultConnectionString());
+            if (databaseHealthChecks)
+            {
+                healthChecks
+                    .AddSqlServer(configuration.GetDefaultConnectionString());
+            }
 
-            healthChecks.AddRabbitMQ(rabbitConnectionString: "amqp://rabbitmquser:rabbitmqPassword12!@rabbitmq/");
+            if (messagingHealthChecks)
+            {
+                var messageQueueSettings = GetMessageQueueSettings(configuration);
+
+                var messageQueueConnectionString =
+                    $"amqp://{messageQueueSettings.UserName}:{messageQueueSettings.Password}@{messageQueueSettings.Host}/";
+
+                healthChecks
+                    .AddRabbitMQ(rabbitConnectionString: messageQueueConnectionString);
+            }
 
             return services;
         }
 
         public static IServiceCollection AddMessaging(
             this IServiceCollection services,
+            IConfiguration configuration,
+            bool usePolling = true,
             params Type[] consumers)
         {
+            var messageQueueSettings = GetMessageQueueSettings(configuration);
+
             services
                 .AddMassTransit(mt =>
                 {
@@ -216,10 +239,10 @@
 
                     mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
                     {
-                        rmq.Host("rabbitmq", host =>
+                        rmq.Host(messageQueueSettings.Host, host =>
                         {
-                            host.Username("rabbitmquser");
-                            host.Password("rabbitmqPassword12!");
+                            host.Username(messageQueueSettings.UserName);
+                            host.Password(messageQueueSettings.Password);
                         });
 
                         consumers.ForEach(consumer
@@ -236,20 +259,37 @@
                 })
                 .AddMassTransitHostedService();
 
+            if (usePolling)
+            {
+                services.AddMessagesHostedService(configuration);
+            }
+
             return services;
         }
 
-        public static IServiceCollection AddMessagesHostedService(
+        private static IServiceCollection AddMessagesHostedService(
             this IServiceCollection services,
             IConfiguration configuration)
         {
+            var connectionString = configuration.GetCronJobsConnectionString();
+            CreateDatabase(connectionString);
+
             // Add Hangfire services.
             services
                 .AddHangfire(config => config
                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                     .UseSimpleAssemblyNameTypeSerializer()
                     .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(configuration.GetDefaultConnectionString()));
+                    .UseSqlServerStorage(
+                        configuration.GetDefaultConnectionString(),
+                        new SqlServerStorageOptions()
+                        {
+                            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                            QueuePollInterval = TimeSpan.Zero,
+                            UseRecommendedIsolationLevel = true,
+                            DisableGlobalLocks = true
+                        }));
 
             // Add the processing server as IHostedService
             services.AddHangfireServer();
@@ -259,6 +299,33 @@
             services.AddHostedService<MessagesHostedService>();
 
             return services;
+        }
+
+        private static MessageQueueSettings GetMessageQueueSettings(IConfiguration configuration)
+        {
+            var settings = configuration.GetSection(nameof(MessageQueueSettings));
+
+            return new MessageQueueSettings(
+                settings.GetValue<string>(nameof(MessageQueueSettings.Host)),
+                settings.GetValue<string>(nameof(MessageQueueSettings.UserName)),
+                settings.GetValue<string>(nameof(MessageQueueSettings.Password)));
+        }
+
+        private static void CreateDatabase(string connectionString)
+        {
+            var dbName = connectionString
+                .Split(";")[1]
+                .Split("=")[1];
+
+            using var connection = new SqlConnection(connectionString.Replace(dbName, "master"));
+
+            connection.Open();
+
+            using var command = new SqlCommand(
+                $"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'{dbName}') create database [{dbName}];",
+                connection);
+
+            command.ExecuteNonQuery();
         }
     }
 }

@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Common.Services;
+    using Common.Services.Data;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;

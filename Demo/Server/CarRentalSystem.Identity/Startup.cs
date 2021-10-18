@@ -2,6 +2,7 @@ namespace CarRentalSystem.Identity
 {
     using Common.Infrastructure;
     using Common.Services;
+    using Common.Services.Data;
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
@@ -21,8 +22,13 @@ namespace CarRentalSystem.Identity
 
         public void ConfigureServices(IServiceCollection services)
             => services
-                .AddUserStore()
-                .AddWebService<IdentityDbContext>(this.Configuration)
+                .Configure<IdentitySettings>(
+                    this.Configuration.GetSection(nameof(IdentitySettings)),
+                    config => config.BindNonPublicProperties = true)
+                .AddUserStorage()
+                .AddWebService<IdentityDbContext>(
+                    this.Configuration, 
+                    messagingHealthChecks: false)
                 .AddTransient<IDataSeeder, IdentityDataSeeder>()
                 .AddTransient<IIdentityService, IdentityService>()
                 .AddTransient<ITokenGeneratorService, TokenGeneratorService>();

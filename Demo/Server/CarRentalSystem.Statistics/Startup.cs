@@ -2,6 +2,7 @@ namespace CarRentalSystem.Statistics
 {
     using Common.Infrastructure;
     using Common.Services;
+    using Common.Services.Data;
     using Data;
     using Messages;
     using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,9 @@ namespace CarRentalSystem.Statistics
                 .AddTransient<IDataSeeder, StatisticsDataSeeder>()
                 .AddTransient<IStatisticsService, StatisticsService>()
                 .AddTransient<ICarAdViewService, CarAdViewService>()
-                .AddMessaging(typeof(CarAdCreatedConsumer));
+                .AddMessaging(
+                    this.Configuration,
+                    consumers: typeof(CarAdCreatedConsumer));
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

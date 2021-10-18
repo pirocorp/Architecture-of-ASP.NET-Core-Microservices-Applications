@@ -7,7 +7,7 @@
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddUserStore(this IServiceCollection services)
+        public static IServiceCollection AddUserStorage(this IServiceCollection services)
         {
             services
                 .AddIdentity<User, IdentityRole>(options =>
