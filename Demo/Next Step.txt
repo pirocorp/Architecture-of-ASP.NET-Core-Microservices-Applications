@@ -1,5 +1,1 @@
-Refactor RabbitMQ configurations 2:17:00
-
-
-https://www.youtube.com/watch?v=SxuoFLO8Mqc
-https://www.youtube.com/watch?v=g0H2gx2LjbI
+Use Messages and publish services and DataService
