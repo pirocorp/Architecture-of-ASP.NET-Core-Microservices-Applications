@@ -31,7 +31,7 @@ services:
   
   identity:    
     container_name: identity  
-    #image: pirocorp/carrentalsystem-identity-service:1.0
+    image: pirocorp/carrentalsystem-identity-service:1.0
     build:
       context: ./Server
       dockerfile: ./CarRentalSystem.Identity/Dockerfile
@@ -51,7 +51,7 @@ services:
       
   dealers:    
     container_name: dealers  
-    #image: pirocorp/carrentalsystem-dealers-service:1.0
+    image: pirocorp/carrentalsystem-dealers-service:1.0
     build:
       context: ./Server
       dockerfile: ./CarRentalSystem.Dealers/Dockerfile
@@ -75,7 +75,7 @@ services:
       
   statistics:    
     container_name: statistics 
-    #image: pirocorp/carrentalsystem-statistics-service:1.0    
+    image: pirocorp/carrentalsystem-statistics-service:1.0    
     build:
       context: ./Server
       dockerfile: ./CarRentalSystem.Statistics/Dockerfile
@@ -99,7 +99,7 @@ services:
       
   notifications:
     container_name: notifications
-    #image: pirocorp/carrentalsystem-notifications-service:1.0   
+    image: pirocorp/carrentalsystem-notifications-service:1.0   
     build:
         context: ./Server
         dockerfile: ./CarRentalSystem.Notifications/Dockerfile
@@ -122,7 +122,7 @@ services:
         
   client:
     container_name: client
-    #image: pirocorp/carrentalsystem-user-client:1.0   
+    image: pirocorp/carrentalsystem-user-client:1.0   
     build:
         context: ./Client
         dockerfile: ./Dockerfile
@@ -139,7 +139,7 @@ services:
         
   admin:
     container_name: admin
-    #image: pirocorp/carrentalsystem-admin-client:1.0
+    image: pirocorp/carrentalsystem-admin-client:1.0
     build:
         context: ./Server
         dockerfile: ./CarRentalSystem.Admin/Dockerfile
@@ -162,7 +162,7 @@ services:
         
   watchdog:
     container_name: watchdog
-    #image: pirocorp/carrentalsystem-watchdog-service:1.0   
+    image: pirocorp/carrentalsystem-watchdog-service:1.0   
     build:
         context: ./Server
         dockerfile: ./CarRentalSystem.Watchdog/Dockerfile
