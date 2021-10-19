@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Common.Services;
     using Common.Services.Data;
+    using Common.Services.Messages;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,8 @@
 
     public class CarAdViewService : DataService<CarAdView>, ICarAdViewService
     {
-        public CarAdViewService(StatisticsDbContext db)
-            : base(db)
+        public CarAdViewService(StatisticsDbContext db, IPublisher publisher)
+            : base(db, publisher)
         {
         }
 

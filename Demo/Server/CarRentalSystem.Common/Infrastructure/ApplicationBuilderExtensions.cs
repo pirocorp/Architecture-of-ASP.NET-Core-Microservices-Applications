@@ -10,7 +10,6 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Services;
     using Services.Data;
 
     public static class ApplicationBuilderExtensions
@@ -24,16 +23,9 @@
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetCallingAssembly().GetName().Name));
-
-                if (app.ApplicationServices.GetService<MessagesHostedService>() != null)
-                {
-                    // Register the dashboard (available at /hangfire) 
-                    app.UseHangfireDashboard();
-                }
             }
 
             app
-                .UseHttpsRedirection()
                 .UseRouting()
                 .UseCors(options => options
                     .AllowAnyOrigin()
@@ -41,16 +33,9 @@
                     .AllowAnyMethod())
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints
-                        .MapHealthChecks("/health", new HealthCheckOptions
-                        {
-                            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                        });
-
-                    endpoints.MapControllers();
-                });
+                .UseEndpoints(endpoints => endpoints
+                    .MapHealthChecks()
+                    .MapControllers());
 
             return app;
         }

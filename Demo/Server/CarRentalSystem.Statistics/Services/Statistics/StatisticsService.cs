@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Common.Services.Data;
+    using Common.Services.Messages;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,8 @@
     {
         private readonly IMapper mapper;
 
-        public StatisticsService(StatisticsDbContext db, IMapper mapper)
-            : base(db)
+        public StatisticsService(StatisticsDbContext db, IPublisher publisher, IMapper mapper)
+            : base(db, publisher)
         {
             this.mapper = mapper;
         }
@@ -22,14 +23,5 @@
             => await this.mapper
                 .ProjectTo<StatisticsOutputModel>(this.All())
                 .SingleOrDefaultAsync();
-
-        public async Task AddCarAd()
-        {
-            var statistics = await this.All().SingleOrDefaultAsync();
-
-            statistics.TotalCarAds++;
-
-            await this.Data.SaveChangesAsync();
-        }
     }
 }

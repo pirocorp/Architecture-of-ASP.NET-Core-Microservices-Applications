@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Common.Services.Data;
+    using Common.Services.Messages;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -16,8 +17,8 @@
     {
         private readonly IMapper mapper;
 
-        public DealerService(DealersDbContext db, IMapper mapper)
-            : base(db)
+        public DealerService(DealersDbContext db, IPublisher publisher, IMapper mapper)
+            : base(db, publisher)
             => this.mapper = mapper;
 
         public Task<Dealer> FindByUser(string userId)

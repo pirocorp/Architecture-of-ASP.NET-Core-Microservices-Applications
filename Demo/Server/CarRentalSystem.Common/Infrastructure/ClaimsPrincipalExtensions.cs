@@ -1,6 +1,7 @@
 ﻿namespace CarRentalSystem.Common.Infrastructure
 {
     using System.Security.Claims;
+
     using static Common.Constants;
 
     public static class ClaimsPrincipalExtensions

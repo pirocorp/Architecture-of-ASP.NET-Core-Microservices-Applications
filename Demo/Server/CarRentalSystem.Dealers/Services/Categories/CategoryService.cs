@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Common.Services.Data;
+    using Common.Services.Messages;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -13,8 +14,8 @@
     {
         private readonly IMapper mapper;
 
-        public CategoryService(DealersDbContext db, IMapper mapper) 
-            : base(db) 
+        public CategoryService(DealersDbContext db, IPublisher publisher, IMapper mapper) 
+            : base(db, publisher) 
             => this.mapper = mapper;
 
         public async Task<Category> Find(int categoryId)

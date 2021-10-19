@@ -95,7 +95,9 @@
                 }
             };
 
-            var messageData = new CarAdCreatedMessage()
+            this.carAds.Add(carAd);
+
+            var message = new CarAdCreatedMessage
             {
                 CarAdId = carAd.Id,
                 Manufacturer = carAd.Manufacturer.Name,
@@ -103,13 +105,7 @@
                 PricePerDay = carAd.PricePerDay
             };
 
-            var message = new Message(messageData);
-
-            await this.carAds.Save(carAd, message);
-
-            await this.publisher.Publish(messageData);
-
-            await this.carAds.MarkMessageAsPublished(message.Id);
+            await this.carAds.Save(message);
 
             return new CreateCarAdOutputModel(carAd.Id);
         }

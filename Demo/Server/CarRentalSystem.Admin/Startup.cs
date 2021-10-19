@@ -31,6 +31,10 @@ namespace CarRentalSystem.Admin
             services
                 .AddAutoMapperProfile(Assembly.GetExecutingAssembly())
                 .AddTokenAuthentication(this.Configuration)
+                .AddHealth(
+                    this.Configuration,
+                    databaseHealthChecks: false,
+                    messagingHealthChecks: false)
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddTransient<JwtCookieAuthenticationMiddleware>()
                 .AddExternalService<IIdentityService>(serviceEndpoints.Identity)
@@ -61,6 +65,7 @@ namespace CarRentalSystem.Admin
                 .UseJwtCookieAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints
+                    .MapHealthChecks()
                     .MapDefaultControllerRoute());
         }
     }

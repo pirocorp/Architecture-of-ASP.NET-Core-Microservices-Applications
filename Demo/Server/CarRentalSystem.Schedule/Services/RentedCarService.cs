@@ -3,13 +3,14 @@
     using System.Linq;
     using System.Threading.Tasks;using Common.Services;
     using Common.Services.Data;
+    using Common.Services.Messages;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class RentedCarService : DataService<RentedCar>, IRentedCarService
     {
-        public RentedCarService(DbContext db)
-            : base(db)
+        public RentedCarService(DbContext db, IPublisher publisher)
+            : base(db, publisher)
         {
         }
 

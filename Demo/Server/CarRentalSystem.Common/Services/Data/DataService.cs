@@ -2,37 +2,54 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using Common.Data;
     using Common.Data.Models;
+    using Messages;
     using Microsoft.EntityFrameworkCore;
 
     public abstract class DataService<TEntity> : IDataService<TEntity>
         where TEntity : class
     {
-        protected DataService(DbContext db) => this.Data = db;
+        protected DataService(DbContext db, IPublisher publisher)
+        {
+            this.Data = db;
+            this.Publisher = publisher;
+        }
 
         protected DbContext Data { get; }
 
+        protected IPublisher Publisher { get; }
+
         protected IQueryable<TEntity> All() => this.Data.Set<TEntity>();
 
-        public async Task MarkMessageAsPublished(int id)
+        public void Add(TEntity entity) => this.Data.Add(entity);
+
+        public async Task Save(params object[] messages)
         {
-            var message = await this.Data.FindAsync<Message>(id);
+            var dataMessages = messages
+                .ToDictionary(data => data, data => new Message(data));
 
-            message.MarkAsPublished();
-
-            await this.Data.SaveChangesAsync();
-        }
-
-        public async Task Save(TEntity entity, params Message[] messages)
-        {
-            foreach (var message in messages)
+            if (this.Data is MessageDbContext)
             {
-                this.Data.Add(message);
+                foreach (var (_, message) in dataMessages)
+                {
+                    this.Data.Add(message);
+                }
             }
 
-            this.Data.Update(entity);
-
             await this.Data.SaveChangesAsync();
+
+            if (this.Data is MessageDbContext)
+            {
+                foreach (var (data, message) in dataMessages)
+                {
+                    await this.Publisher.Publish(data);
+
+                    message.MarkAsPublished();
+
+                    await this.Data.SaveChangesAsync();
+                }
+            }
         }
     }
 }

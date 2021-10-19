@@ -2,14 +2,15 @@
 {
     using System.Threading.Tasks;
     using Common.Services.Data;
+    using Common.Services.Messages;
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class ManufacturerService : DataService<Manufacturer>, IManufacturerService
     {
-        public ManufacturerService(DealersDbContext db) 
-            : base(db)
+        public ManufacturerService(DealersDbContext db, IPublisher publisher) 
+            : base(db, publisher)
         {
         }
 
