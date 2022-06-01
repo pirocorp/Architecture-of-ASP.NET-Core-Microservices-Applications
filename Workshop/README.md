@@ -20,3 +20,7 @@
 ![image](https://user-images.githubusercontent.com/34960418/171435488-3a7cd4e2-9b90-40a7-817a-a0e434dec06a.png)
 
 
+# Platform Service Architecture
+
+![image](https://user-images.githubusercontent.com/34960418/171437200-4e1c4ea9-d310-4bf2-8273-42f16de151ab.png)
+
