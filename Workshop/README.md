@@ -17,5 +17,6 @@
 
 # Solution Architecture
 
-![image](https://user-images.githubusercontent.com/34960418/171434238-286ebdf6-15e3-42da-a1b0-06d99c131c90.png)
+![image](https://user-images.githubusercontent.com/34960418/171435488-3a7cd4e2-9b90-40a7-817a-a0e434dec06a.png)
+
 
