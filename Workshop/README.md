@@ -13,3 +13,9 @@
 ## Commands Service
 
 ![image](https://user-images.githubusercontent.com/34960418/171433242-f86ad0c6-cc2c-4309-aa2b-bdf486346bc6.png)
+
+
+# Solution Architecture
+
+![image](https://user-images.githubusercontent.com/34960418/171434238-286ebdf6-15e3-42da-a1b0-06d99c131c90.png)
+
