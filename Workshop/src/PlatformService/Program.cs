@@ -24,7 +24,6 @@ namespace PlatformService
             app.Run();
         }
 
-
         private static void ConfigureConfiguration(IConfiguration configuration)
         {
             sqlServerConnectionString = configuration.GetConnectionString("DefaultConnection");
@@ -45,6 +44,7 @@ namespace PlatformService
         private static void ConfigureMiddleware(WebApplication app, IServiceProvider services)
         {
             app.UseDatabaseMigrations();
+            app.SeedDatabase();
 
             if (app.Environment.IsDevelopment())
             {
