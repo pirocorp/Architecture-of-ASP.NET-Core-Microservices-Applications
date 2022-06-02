@@ -1,9 +1,9 @@
-namespace PlatformService
+﻿namespace PlatformService
 {
-    using Infrastructure.Extensions;
     using Microsoft.EntityFrameworkCore;
 
     using PlatformService.Data;
+    using PlatformService.Infrastructure.Extensions;
 
     public static class Program
     {
@@ -15,7 +15,7 @@ namespace PlatformService
 
             ConfigureConfiguration(builder.Configuration);
             ConfigureServices(builder.Services);
-            
+
             var app = builder.Build();
 
             ConfigureMiddleware(app, app.Services);

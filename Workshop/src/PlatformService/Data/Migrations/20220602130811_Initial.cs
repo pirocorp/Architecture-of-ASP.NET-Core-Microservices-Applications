@@ -23,7 +23,7 @@ namespace PlatformService.Migrations
                         .Column<string>(type: "nvarchar(max)", nullable: false),
 
                     Cost = table
-                        .Column<string>(type: "nvarchar(max)", nullable: false)
+                        .Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {
