@@ -1,7 +1,14 @@
 namespace PlatformService
 {
-    public class Program
+    using Infrastructure.Extensions;
+    using Microsoft.EntityFrameworkCore;
+
+    using PlatformService.Data;
+
+    public static class Program
     {
+        private static string sqlServerConnectionString = string.Empty;
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -18,13 +25,18 @@ namespace PlatformService
         }
 
 
-        private static void ConfigureConfiguration(ConfigurationManager configuration)
+        private static void ConfigureConfiguration(IConfiguration configuration)
         {
-
+            sqlServerConnectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         private static void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<PlatformDbContext>(options =>
+            {
+                options.UseSqlServer(sqlServerConnectionString);
+            });
+
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -32,6 +44,8 @@ namespace PlatformService
 
         private static void ConfigureMiddleware(WebApplication app, IServiceProvider services)
         {
+            app.UseDatabaseMigrations();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
