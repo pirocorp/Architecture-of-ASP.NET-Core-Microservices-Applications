@@ -1,9 +1,9 @@
 ﻿namespace PlatformService.Infrastructure.Extensions
 {
-    using Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     using PlatformService.Data;
+    using PlatformService.Data.Models;
 
     public static class ApplicationBuilderExtensions
     {
@@ -37,9 +37,9 @@
 
             var platforms = new List<Platform>()
             {
-                new Platform { Name = ".NET", Publisher = "Microsoft", Cost = "Free" }, 
-                new Platform { Name = "SQL Server Express", Publisher = "Microsoft", Cost = "Free" },  
-                new Platform { Name = "Kubernetes", Publisher = "Cloud Native Computing Foundation", Cost = "Free" },  
+                new () { Name = ".NET", Publisher = "Microsoft", Cost = "Free" },
+                new () { Name = "SQL Server Express", Publisher = "Microsoft", Cost = "Free" },
+                new () { Name = "Kubernetes", Publisher = "Cloud Native Computing Foundation", Cost = "Free" },
             };
 
             dbContext.Platforms.AddRange(platforms);

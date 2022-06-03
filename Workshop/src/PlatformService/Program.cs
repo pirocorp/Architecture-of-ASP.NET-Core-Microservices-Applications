@@ -4,6 +4,7 @@
 
     using PlatformService.Data;
     using PlatformService.Infrastructure.Extensions;
+    using PlatformService.Services;
 
     public static class Program
     {
@@ -37,6 +38,11 @@
             });
 
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddTransient<IPlatformsService, PlatformsService>();
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
         }
