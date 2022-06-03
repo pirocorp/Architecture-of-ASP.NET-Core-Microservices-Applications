@@ -28,7 +28,7 @@ ENTRYPOINT ["dotnet", "PlatformService.dll"]
 
 ## Create docker image
 
-Tag the docker image to your dockerhub. In the root folder of your project run the following command: 
+Tag the docker image to your dockerhub. In the root folder of your project, run the following command:
 
 ```bash
 docker build -t pirocorp/workshop-platformservice -f . ../
@@ -37,4 +37,10 @@ docker build -t pirocorp/workshop-platformservice -f . ../
 ![image](https://user-images.githubusercontent.com/34960418/171869347-c749d7ee-3534-4ef6-a37c-f457935e8528.png)
 
 
+Run docker container
 
+```bash
+docker run -p 8080:80 pirocorp/workshop-platformservice
+```
+
+![image](https://user-images.githubusercontent.com/34960418/171870354-2995aeff-82ca-4ff8-ab65-a3b007f60e4d.png)
