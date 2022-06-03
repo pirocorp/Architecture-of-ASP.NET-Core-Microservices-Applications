@@ -24,9 +24,10 @@
 
 ## Platform Service Architecture
 
-![image](https://user-images.githubusercontent.com/34960418/171437200-4e1c4ea9-d310-4bf2-8273-42f16de151ab.png)
+![image](https://user-images.githubusercontent.com/34960418/171847155-8641b2cc-3711-4a62-80de-eda2d42f322c.png)
 
 
 ## Commands Service Architecture
 
-![image](https://user-images.githubusercontent.com/34960418/171437854-14a9dbc5-516e-43cd-9bcf-123a3dde4594.png)
+![image](https://user-images.githubusercontent.com/34960418/171847361-d9f23af1-5bd6-4c66-923b-3f8ff0b1e895.png)
+
