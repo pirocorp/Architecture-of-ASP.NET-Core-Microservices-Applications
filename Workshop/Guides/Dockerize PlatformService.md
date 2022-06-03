@@ -43,4 +43,5 @@ Run docker container
 docker run -p 8080:80 pirocorp/workshop-platformservice
 ```
 
-![image](https://user-images.githubusercontent.com/34960418/171870354-2995aeff-82ca-4ff8-ab65-a3b007f60e4d.png)
+![image](https://user-images.githubusercontent.com/34960418/171884708-6fa00663-5c04-4bc7-baf3-fecb09e39d8b.png)
+
