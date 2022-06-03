@@ -34,6 +34,7 @@ Tag the docker image to your dockerhub. In the root folder of your project run t
 docker build -t pirocorp/workshop-platformservice -f . ../
 ```
 
-![image](https://user-images.githubusercontent.com/34960418/171868210-dd2ca3c4-7879-447e-8eaa-f20b10efc237.png)
+![image](https://user-images.githubusercontent.com/34960418/171869347-c749d7ee-3534-4ef6-a37c-f457935e8528.png)
+
 
 
