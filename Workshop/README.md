@@ -29,4 +29,5 @@
 
 ## Commands Service Architecture
 
-![image](https://user-images.githubusercontent.com/34960418/171437854-14a9dbc5-516e-43cd-9bcf-123a3dde4594.png)
+![image](https://user-images.githubusercontent.com/34960418/171847361-d9f23af1-5bd6-4c66-923b-3f8ff0b1e895.png)
+
