@@ -45,3 +45,11 @@ docker run -p 8080:80 pirocorp/workshop-platformservice
 
 ![image](https://user-images.githubusercontent.com/34960418/171884708-6fa00663-5c04-4bc7-baf3-fecb09e39d8b.png)
 
+
+Push docker image to dockerhub
+
+```bash
+docker push pirocorp/workshop-platformservice
+```
+
+![image](https://user-images.githubusercontent.com/34960418/171895117-dfbd51e8-24f3-4571-ad9d-9a54e2c303b2.png)
