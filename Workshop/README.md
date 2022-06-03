@@ -31,3 +31,7 @@
 
 ![image](https://user-images.githubusercontent.com/34960418/171847361-d9f23af1-5bd6-4c66-923b-3f8ff0b1e895.png)
 
+
+## Guides
+
+[Dockerize Platform Service](Workshop/Guides/Dockerize%20PlatformService.md)
