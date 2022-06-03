@@ -34,4 +34,4 @@
 
 ## Guides
 
-[Dockerize Platform Service](Workshop/Guides/Dockerize%20PlatformService.md)
+[Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
