@@ -32,6 +32,11 @@
 ![image](https://user-images.githubusercontent.com/34960418/171847361-d9f23af1-5bd6-4c66-923b-3f8ff0b1e895.png)
 
 
+## Kubernetes Architecture
+
+![image](https://user-images.githubusercontent.com/34960418/172049082-36d5a4a2-9654-4ac0-aa4f-28920917f757.png)
+
+
 ## Guides
 
 [Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
