@@ -116,3 +116,20 @@ kubectl get pods
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172052261-d8f95693-6970-43f9-aca5-9ad1fb860c86.png)
+
+
+Delete deployment with:
+
+```bash
+kubectl delete deployment platforms-deployment
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172052861-ea364039-22f9-49b7-aeba-b8417c1e8858.png)
+
+or 
+
+```bash
+kubectl delete -f .\platforms-deployment.yaml
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172052933-cfd931df-6cb4-43fe-9793-e161919c21a6.png)
