@@ -80,3 +80,12 @@ kubectl version
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172051405-c120d4f3-0c1e-4073-94a5-f1cb87d7ed84.png)
+
+
+Run the following command to see all nodes in the Docker Desktop's Kubernetes cluster:
+
+```bash
+kubectl get nodes
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172051651-571a2d08-9e6c-4cd7-8b7d-4c9bc93aebdc.png)
