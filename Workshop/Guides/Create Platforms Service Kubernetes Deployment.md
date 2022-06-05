@@ -44,3 +44,39 @@ Make sure the "Enable Kubernetes" option is enabled. Otherwise, select it and cl
 After a while, both docker and Kubernetes indicators will turn green.
 
 ![image](https://user-images.githubusercontent.com/34960418/172051081-ea205f02-ab45-4cea-a49a-e215accb9781.png)
+
+
+To see all kubernetes context and active one run the following command:
+
+```bash
+kubectl config get-contexts
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172051236-143da098-9480-418b-ae60-6cea9285a9cc.png)
+
+
+To change to Docker Desktop context run:
+
+```bash
+kubectl config use-context docker-desktop
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172051295-ea81a483-7e63-46fa-88c4-f7a0e7ab9e9e.png)
+
+
+Verify that the context is switched to the Docker Desktop with: 
+
+```bash
+kubectl config get-contexts
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172051339-707241ff-bf3b-4633-90fa-1aca6e897e3d.png)
+
+
+Check if kubectl version is required version for using with docker desktop. The kubectl shold be +/- 1 minor version from the server version.
+
+```bash
+kubectl version
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172051405-c120d4f3-0c1e-4073-94a5-f1cb87d7ed84.png)
