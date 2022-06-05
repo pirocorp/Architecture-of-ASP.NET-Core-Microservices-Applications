@@ -1,15 +1,15 @@
 # Create Platforms Kubernetes Deployment
 
-Create in your solution folder subfolder named ```K8s``` and put in it file ```platforms-deployment.yaml```. In the file paste following code:
+Create in your solution folder subfolder named ```K8s``` and put in it file ```platforms-deployment.yaml```. In the file, paste following code:
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
-# Deployment name
+# Deployment name and other metadata
 metadata: 
   name: platforms-deployment
 spec:
-  # Desired pods quantity
+  # The desired pod quantity
   replicas: 1
   # For which pods is this deployment
   selector: 
