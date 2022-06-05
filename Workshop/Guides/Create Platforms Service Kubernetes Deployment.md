@@ -107,3 +107,12 @@ kubectl get deployments
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172052125-8b00ca51-bc65-48de-b76e-361d60da170d.png)
+
+
+Check pods with:
+
+```bash
+kubectl get pods
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172052261-d8f95693-6970-43f9-aca5-9ad1fb860c86.png)
