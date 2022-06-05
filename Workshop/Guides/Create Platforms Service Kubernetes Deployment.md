@@ -89,3 +89,21 @@ kubectl get nodes
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172051651-571a2d08-9e6c-4cd7-8b7d-4c9bc93aebdc.png)
+
+
+Deploy ```platforms-deployment.yaml``` to Kubernetes
+
+```bash
+kubectl apply -f platforms-deployment.yaml
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172052050-d549b90c-0a9d-4674-a158-f46cdd80ecda.png)
+
+
+Check deployment with:
+
+```bash
+kubectl get deployments
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172052125-8b00ca51-bc65-48de-b76e-361d60da170d.png)
