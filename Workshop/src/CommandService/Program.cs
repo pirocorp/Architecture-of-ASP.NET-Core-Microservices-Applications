@@ -1,13 +1,5 @@
-﻿namespace PlatformService
+﻿namespace CommandService
 {
-    using Common.Infrastructure.Extensions;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using PlatformService.Data;
-    using PlatformService.Infrastructure.Extensions;
-    using PlatformService.Services;
-
     public static class Program
     {
         private static string sqlServerConnectionString = string.Empty;
@@ -34,16 +26,7 @@
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PlatformDbContext>(options =>
-            {
-                options.UseSqlServer(sqlServerConnectionString);
-            });
-
             services.AddControllers();
-
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddTransient<IPlatformsService, PlatformsService>();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -51,9 +34,6 @@
 
         private static void ConfigureMiddleware(WebApplication app, IServiceProvider services)
         {
-            app.UseDatabaseMigrations<PlatformDbContext>();
-            app.SeedDatabase();
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -65,7 +45,7 @@
             app.UseAuthorization();
         }
 
-        private static void ConfigureEndpoints(IEndpointRouteBuilder app, IServiceProvider services)
+        private static void ConfigureEndpoints(WebApplication app, IServiceProvider services)
         {
             app.MapControllers();
         }

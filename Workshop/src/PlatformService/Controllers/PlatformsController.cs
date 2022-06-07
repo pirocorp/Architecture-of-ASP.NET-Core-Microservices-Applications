@@ -1,5 +1,7 @@
 ﻿namespace PlatformService.Controllers
 {
+    using Common.Controllers;
+
     using Microsoft.AspNetCore.Mvc;
 
     using PlatformService.Models;

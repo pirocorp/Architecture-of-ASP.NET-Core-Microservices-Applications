@@ -1,4 +1,4 @@
-﻿namespace PlatformService.Controllers
+﻿namespace Common.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
 
