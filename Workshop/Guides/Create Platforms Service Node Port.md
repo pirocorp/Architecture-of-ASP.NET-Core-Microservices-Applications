@@ -1,4 +1,4 @@
-# Create Platforms Service Node Port
+# Create Platforms Service Node Port Service
 
 ## Create ```platforms-np-srv.yaml``` file. 
 
