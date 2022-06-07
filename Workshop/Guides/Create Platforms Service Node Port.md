@@ -53,3 +53,7 @@ curl http://localhost:32000/api/Platforms
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172364389-77a562e0-c748-4dc1-be93-22888ec17b85.png)
+
+or with Postman
+
+![image](https://user-images.githubusercontent.com/34960418/172364650-9a49ddfd-5db8-48d7-beff-ed4a0ee886c3.png)
