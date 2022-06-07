@@ -22,3 +22,12 @@ spec:
       port: 80
       targetPort: 80
 ```
+
+
+## Deploy ```platforms-np-srv.yaml``` to Kubernetes
+
+```bash
+kubectl apply -f platforms-np-srv.yaml
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172363556-c6fee1eb-cfd1-49ec-bbbd-42aa96f3d2b3.png)
