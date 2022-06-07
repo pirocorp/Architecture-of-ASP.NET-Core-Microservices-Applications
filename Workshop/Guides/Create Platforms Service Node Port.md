@@ -44,3 +44,12 @@ Check services with:
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172364010-efc4c776-4563-4c99-869b-9e2dbfa75c7a.png)
+
+
+Test service with 
+
+```bash
+curl http://localhost:32000/api/Platforms
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172364389-77a562e0-c748-4dc1-be93-22888ec17b85.png)
