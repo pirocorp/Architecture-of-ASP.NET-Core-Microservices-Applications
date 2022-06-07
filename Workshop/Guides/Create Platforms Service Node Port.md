@@ -35,3 +35,12 @@ kubectl apply -f platforms-np-srv.yaml
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172363556-c6fee1eb-cfd1-49ec-bbbd-42aa96f3d2b3.png)
+
+
+Check services with:
+
+```bash
+ kubectl get services
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172364010-efc4c776-4563-4c99-869b-9e2dbfa75c7a.png)
