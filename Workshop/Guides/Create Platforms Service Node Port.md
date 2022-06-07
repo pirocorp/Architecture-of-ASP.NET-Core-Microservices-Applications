@@ -19,7 +19,11 @@ spec:
   ports: 
     - name: platforms-np-srv-port
       protocol: TCP
+      # External port
+      nodePort: 32000
+      # Internal port
       port: 80
+      # Pod port
       targetPort: 80
 ```
 
