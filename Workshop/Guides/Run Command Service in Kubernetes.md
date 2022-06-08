@@ -96,3 +96,25 @@ spec:
     port: 80
     targetPort: 80
 ```
+
+
+# Deploy to Kubernetes
+
+Check if platforms-deployment is already deployed
+
+```bash
+kubectl get deployments
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172602091-9641cb18-540e-4c40-b0e2-6e29aa7a6f3c.png)
+
+
+If there is no platforms-deployment, create platforms-deployment with following command
+
+```bash
+kubectl apply -f .\platforms-deployment.yaml
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172602287-25a6b510-9e64-4042-a0a8-cfda8c9e900d.png)
+
+
