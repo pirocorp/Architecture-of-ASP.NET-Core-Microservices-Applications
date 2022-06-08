@@ -42,6 +42,79 @@ kubectl create secret generic mssql-secret --from-literal=SA_PASSWORD="pa55w0rd!
 ![image](https://user-images.githubusercontent.com/34960418/172649477-d3454e17-2c0e-43c7-9a38-67f503ee9ef4.png)
 
 
+# Create ```mssql-platform-deployment.yaml``` and enter the following code:
 
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchlabels:
+      app: mssql
+  template:
+    metadata:
+      labels:
+        app: mssql
+    spec:
+      containers:
+        - name: mssql
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          ports:
+            - containerPort: 1433
+          # Environment variables
+          env:
+          - name: MSSQL_PID
+            value: "Express"
+          - name: ACCEPT_EULA
+            value: "Y"
+          # This environment variable will be provided from the secret mssql-secret
+          - name: SA_PASSWORD
+            valueFrom:
+              secretKeyRef: 
+                name: mssql-secret
+                key: SA_PASSWORD
+          volumeMounts:
+          # SQL Server database location
+          - mountPath: /var/opt/mssql/data
+            name: mssqldb
+      volumes:
+      - name: mssqldb
+        # Consuming the claim
+        persistentVolumeClaim: 
+          claimName: mssql-claim
+---
+# Cluster IP service exposes MSSQL inside the cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: mssql
+  ports:
+  - name: mssql-clusterip-srv-port
+    protocol: TCP
+    port: 1433
+    targetPort: 1433
+---
+# Load Balancer exposes MSSQL outside the cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: mssql
+  ports:
+  - name: mssql-loadbalancer-srv-port
+    protocol: TCP
+    port: 1433
+    targetPort: 1433
+```
 
 
