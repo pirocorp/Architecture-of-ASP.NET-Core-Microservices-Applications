@@ -6,15 +6,23 @@ Create Dockerfile in the root folder of the CommandService project with the foll
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
+# Copy csproj for the microservice and restore as distinct layers
 COPY ./CommandService/*.csproj /app
 COPY ./Rules.ruleset /
 COPY ./stylecop.json /
 RUN cd /app
 RUN dotnet restore
 
+# Copy csproj for the common library and restore as distinct layers
+RUN mkdir /Common
+COPY ./Common/*.csproj /Common
+RUN cd /Common
+RUN dotnet restore
+
 # Copy everything else and build
 COPY ./CommandService /app
+COPY ./Common /Common
+RUN cd /app
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
