@@ -1,4 +1,4 @@
-# Create Dockerfile for the Command Service
+# Dockerize the Command Service
 
 Create Dockerfile in the root folder of the CommandService project with the following content. 
 
