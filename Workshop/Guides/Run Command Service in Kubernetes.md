@@ -129,5 +129,8 @@ kubectl apply -f commands-deployment.yaml
 ![image](https://user-images.githubusercontent.com/34960418/172609222-675d6742-f589-45e1-9afd-f0f24dcfd1e2.png)
 
 
+# Test that deployment is correct and Platform Service is comunicating with Commands Service
 
+![image](https://user-images.githubusercontent.com/34960418/172610144-44f5e8f4-8d51-4d8b-9ef3-801b29ec0a0d.png)
 
+![image](https://user-images.githubusercontent.com/34960418/172610043-4bf82180-1d81-4866-ab4c-94edca44e6bf.png)
