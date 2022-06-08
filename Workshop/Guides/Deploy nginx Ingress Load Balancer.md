@@ -22,7 +22,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-srv
-  anotations: 
+  annotations: 
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
@@ -57,7 +57,7 @@ spec:
 ```
 
 
-Edit your host file (for windows users the file is located in C:\Windows\System32\drivers\etc) and add following text in it
+Edit your hosts file (for windows users the file is located in C:\Windows\System32\drivers\etc) and add following text in it
 
 ```
 # Docker Desktop Kubernetes Workshop
@@ -65,3 +65,24 @@ Edit your host file (for windows users the file is located in C:\Windows\System3
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172630536-6b3626b1-6c95-4cb2-89f3-15a8b9c8ca5b.png)
+
+
+Check the name resolution for `pirocorp.com`
+
+```bash
+ping pirocorp.com
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172631341-85d13c25-b72d-469f-937b-17f43a1ed5e2.png)
+
+
+Apply ```ingress-srv.yaml``` to kubernetes
+
+```bash
+kubectl apply -f .\ingress-srv.yaml
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172632390-25292c7a-fab5-4ccf-b0ef-d87c83e1ee4d.png)
+
+
+
