@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformService", "Platform
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{D54FCAC5-980B-40F0-8101-80A7F76B94A7}"
 	ProjectSection(SolutionItems) = preProject
+		..\K8s\commands-deployment.yaml = ..\K8s\commands-deployment.yaml
 		..\K8s\platforms-deployment.yaml = ..\K8s\platforms-deployment.yaml
 		..\K8s\platforms-np-srv.yaml = ..\K8s\platforms-np-srv.yaml
 	EndProjectSection
