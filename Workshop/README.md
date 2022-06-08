@@ -45,3 +45,4 @@
 - [Run Command Service in Kubernetes](Guides/Run%20Command%20Service%20in%20Kubernetes.md)
 - [Deploy nginx Ingress Load Balancer](Guides/Deploy%20nginx%20Ingress%20Load%20Balancer.md)
 - [Deploying MSSQL to Kubernetes](Guides/Deploying%20MSSQL%20to%20Kubernetes.md)
+- [Update Platform Service To Use MSSQL In Kubernetes](Guides/Update%20Platform%20Service%20To%20Use%20MSSQL%20In%20Kubernetes.md)
