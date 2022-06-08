@@ -42,7 +42,7 @@ spec:
   - name: platforms-clusterip-srv-port
     protocol: TCP
     port: 80
-    targetpor: 80
+    targetport: 80
 ```
 
 
