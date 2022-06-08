@@ -42,3 +42,4 @@
 - [Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
 - [Create Platforms Service Kubernetes Deployment](Guides/Create%20Platforms%20Service%20Kubernetes%20Deployment.md)
 - [Create Platforms Service Node Port Service](Guides/Create%20Platforms%20Service%20Node%20Port.md)
+- [Run Command Service in Kubernetes](Guides/Run%20Command%20Service%20in%20Kubernetes.md)
