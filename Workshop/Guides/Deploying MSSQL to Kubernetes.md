@@ -33,6 +33,13 @@ kubectl apply -f .\local-pvc.yaml
 ![image](https://user-images.githubusercontent.com/34960418/172647797-35491577-0a6d-417c-ad1b-4945f6a1ec86.png)
 
 
+# Create secret for admin password
+
+```bash
+kubectl create secret generic mssql-secret --from-literal=SA_PASSWORD="pa55w0rd!"
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172649477-d3454e17-2c0e-43c7-9a38-67f503ee9ef4.png)
 
 
 
