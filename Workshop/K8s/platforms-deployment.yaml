@@ -24,6 +24,15 @@ spec:
       containers:
         - name: platformservice
           image: pirocorp/workshop-platformservice:latest
+          env:
+          # This environment variable will be provided from the secret mssql-secret
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef: 
+                  name: mssql-secret
+                  key: SA_PASSWORD
+            - name: ConnectionStrings__PlatformsConnection
+              value: Server=mssql-clusterip-srv,1433;Initial Catalog=PlatformServiceDb;User Id=sa;Password=$(SA_PASSWORD);
 ---
 apiVersion: v1
 # An abstract way to expose an application running on a set of Pods as a network service.

@@ -12,7 +12,6 @@
     using Microsoft.Extensions.Hosting;
 
     using PlatformService.Data;
-
     using PlatformService.Infrastructure.ConfigurationOptions;
     using PlatformService.Infrastructure.Extensions;
     using PlatformService.Services;
@@ -29,7 +28,7 @@
             var builder = WebApplication.CreateBuilder(args);
 
             ConfigureConfiguration(builder.Configuration);
-            ConfigureServices(builder.Services);
+            ConfigureServices(builder.Services, builder.Environment);
 
             var app = builder.Build();
 
@@ -41,20 +40,30 @@
 
         private static void ConfigureConfiguration(IConfiguration configuration)
         {
-            sqlServerConnectionString = configuration.GetConnectionString("DefaultConnection");
+            sqlServerConnectionString = configuration.GetConnectionString("PlatformsConnection");
 
             commandServiceOptions = configuration
                 .GetSection(CommandServiceOptions.CommandService);
         }
 
-        private static void ConfigureServices(IServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services, IHostEnvironment env)
         {
             services.Configure<CommandServiceOptions>(commandServiceOptions);
 
-            services.AddDbContext<PlatformDbContext>(options =>
+            if (env.IsProduction())
             {
-                options.UseSqlServer(sqlServerConnectionString);
-            });
+                services.AddDbContext<PlatformDbContext>(options =>
+                {
+                    options.UseSqlServer(sqlServerConnectionString);
+                });
+            }
+            else
+            {
+                services.AddDbContext<PlatformDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("In Memory");
+                });
+            }
 
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 

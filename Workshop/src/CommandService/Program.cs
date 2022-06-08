@@ -9,8 +9,6 @@
 
     public static class Program
     {
-        private static string sqlServerConnectionString = string.Empty;
-
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +26,6 @@
 
         private static void ConfigureConfiguration(IConfiguration configuration)
         {
-            sqlServerConnectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         private static void ConfigureServices(IServiceCollection services)

@@ -3,13 +3,19 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
-    public static class ApplicationBuilderExtensions
+    public static class WebApplicationExtensions
     {
-        public static IApplicationBuilder UseDatabaseMigrations<TDbContext>(this IApplicationBuilder app)
+        public static IApplicationBuilder UseDatabaseMigrations<TDbContext>(this WebApplication app)
             where TDbContext : DbContext
         {
-            using var serviceScope = app.ApplicationServices.CreateScope();
+            if (!app.Environment.IsProduction())
+            {
+                return app;
+            }
+
+            using var serviceScope = app.Services.CreateScope();
             var dbContext = serviceScope.ServiceProvider.GetRequiredService<TDbContext>();
             dbContext.Database.Migrate();
 
