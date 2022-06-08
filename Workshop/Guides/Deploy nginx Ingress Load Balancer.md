@@ -10,3 +10,6 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 ![image](https://user-images.githubusercontent.com/34960418/172621855-62d723f5-3317-47c9-87f1-81520ccc9323.png)
 
+
+# Create nginx Ingress Load Balancer Routing Table
+
