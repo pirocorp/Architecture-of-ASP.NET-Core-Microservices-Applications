@@ -63,3 +63,8 @@ kubectl rollout restart deployment platforms-deployment
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172683487-f2f3a9cb-86b7-45b1-bff2-576e37b1e8f9.png)
+
+
+# Chack database for initialized data
+
+![image](https://user-images.githubusercontent.com/34960418/172683648-43b8f7cc-a69e-4bbf-a038-6e79d19cc895.png)
