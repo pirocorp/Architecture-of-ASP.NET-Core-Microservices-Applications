@@ -85,4 +85,7 @@ kubectl apply -f .\ingress-srv.yaml
 ![image](https://user-images.githubusercontent.com/34960418/172632390-25292c7a-fab5-4ccf-b0ef-d87c83e1ee4d.png)
 
 
+# Test Ingress controller
+
+![image](https://user-images.githubusercontent.com/34960418/172633849-ded75773-9bc0-4f3c-8893-f8405b25f317.png)
 
