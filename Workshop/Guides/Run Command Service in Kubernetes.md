@@ -117,3 +117,17 @@ kubectl rollout restart deployment
 
 ![image](https://user-images.githubusercontent.com/34960418/172608378-0f4c136d-1067-4ddf-bd6f-cf91c0b1151b.png)
 
+![image](https://user-images.githubusercontent.com/34960418/172608547-8aad175c-5a2a-4c14-92dc-a26aecf6d7b1.png)
+
+
+Deploy ```commands-deployment.yaml``` to Kubernetes
+
+```bash
+kubectl apply -f commands-deployment.yaml
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172609222-675d6742-f589-45e1-9afd-f0f24dcfd1e2.png)
+
+
+
+
