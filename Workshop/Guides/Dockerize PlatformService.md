@@ -15,8 +15,16 @@ COPY ./stylecop.json /
 RUN cd /app
 RUN dotnet restore
 
+# Copy csproj for the common library and restore as distinct layers
+RUN mkdir /Common
+COPY ./Common/*.csproj /Common
+RUN cd /Common
+RUN dotnet restore
+
 # Copy everything else and build
 COPY ./PlatformService /app
+COPY ./Common /Common
+RUN cd /app
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
