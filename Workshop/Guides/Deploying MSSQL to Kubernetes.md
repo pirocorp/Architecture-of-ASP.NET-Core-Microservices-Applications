@@ -127,3 +127,7 @@ kubectl apply -f .\mssql-platform-deployment.yaml
 ```
 
 ![image](https://user-images.githubusercontent.com/34960418/172658660-c022b995-0843-4bd4-a031-1484e1f7c20c.png)
+
+![image](https://user-images.githubusercontent.com/34960418/172659681-66ff698b-cc5c-4b02-8049-732c5852e4ca.png)
+
+
