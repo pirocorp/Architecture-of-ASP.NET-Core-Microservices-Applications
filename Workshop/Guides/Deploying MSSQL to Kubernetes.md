@@ -42,7 +42,9 @@ kubectl create secret generic mssql-secret --from-literal=SA_PASSWORD="pa55w0rd!
 ![image](https://user-images.githubusercontent.com/34960418/172649477-d3454e17-2c0e-43c7-9a38-67f503ee9ef4.png)
 
 
-# Create ```mssql-platform-deployment.yaml``` and enter the following code:
+# Deploy MSSQL to Kubernetes
+
+Create ```mssql-platform-deployment.yaml``` and enter the following code:
 
 ```yaml
 apiVersion: apps/v1
@@ -52,7 +54,7 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchlabels:
+    matchLabels:
       app: mssql
   template:
     metadata:
@@ -118,3 +120,10 @@ spec:
 ```
 
 
+Deploy ```mssql-platform-deployment.yaml``` to Kubernetes
+
+```bash
+kubectl apply -f .\mssql-platform-deployment.yaml
+```
+
+![image](https://user-images.githubusercontent.com/34960418/172658660-c022b995-0843-4bd4-a031-1484e1f7c20c.png)
