@@ -38,3 +38,10 @@ Tag the docker image to your dockerhub and build it. In the root folder of your 
 ```bash
 docker build -t pirocorp/workshop-commandservice -f . ../
 ```
+
+
+Push the docker image to dockerhub
+
+```bash
+docker push pirocorp/workshop-commandservice
+```
