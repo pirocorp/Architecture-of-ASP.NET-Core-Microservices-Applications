@@ -1,16 +1,28 @@
 ﻿namespace PlatformService
 {
+    using System;
+
     using Common.Infrastructure.Extensions;
 
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     using PlatformService.Data;
+
+    using PlatformService.Infrastructure.ConfigurationOptions;
     using PlatformService.Infrastructure.Extensions;
     using PlatformService.Services;
+    using PlatformService.Services.SyncDataServices.Http;
 
     public static class Program
     {
         private static string sqlServerConnectionString = string.Empty;
+
+        private static IConfigurationSection? commandServiceOptions;
 
         public static void Main(string[] args)
         {
@@ -30,14 +42,21 @@
         private static void ConfigureConfiguration(IConfiguration configuration)
         {
             sqlServerConnectionString = configuration.GetConnectionString("DefaultConnection");
+
+            commandServiceOptions = configuration
+                .GetSection(CommandServiceOptions.CommandService);
         }
 
         private static void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CommandServiceOptions>(commandServiceOptions);
+
             services.AddDbContext<PlatformDbContext>(options =>
             {
                 options.UseSqlServer(sqlServerConnectionString);
             });
+
+            services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 
             services.AddControllers();
 

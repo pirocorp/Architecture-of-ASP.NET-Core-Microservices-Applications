@@ -1,5 +1,11 @@
 ﻿namespace PlatformService.Infrastructure.Extensions
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
+
     using PlatformService.Data;
     using PlatformService.Data.Models;
 

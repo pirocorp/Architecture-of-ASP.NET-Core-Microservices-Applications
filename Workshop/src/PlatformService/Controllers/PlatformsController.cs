@@ -1,19 +1,29 @@
 ﻿namespace PlatformService.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using Common.Controllers;
 
     using Microsoft.AspNetCore.Mvc;
 
     using PlatformService.Models;
     using PlatformService.Services;
+    using PlatformService.Services.SyncDataServices.Http;
 
     public class PlatformsController : ApiController
     {
         private readonly IPlatformsService platformService;
+        private readonly ICommandDataClient commandClient;
 
-        public PlatformsController(IPlatformsService platformService)
+        public PlatformsController(
+            IPlatformsService platformService,
+            ICommandDataClient commandClient)
         {
             this.platformService = platformService;
+            this.commandClient = commandClient;
         }
 
         [HttpGet]
@@ -28,6 +38,15 @@
         public async Task<ActionResult<PlatformRead>> CreatePlatform(PlatformCreate model)
         {
             var platform = await this.platformService.CreatePlatform(model);
+
+            try
+            {
+                await this.commandClient.SendPlatformToCommand(platform);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"--> Could not send synchronously: {ex.Message}");
+            }
 
             return this.CreatedAtRoute(
                 nameof(this.GetPlatform),

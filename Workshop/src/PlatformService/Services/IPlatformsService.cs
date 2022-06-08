@@ -1,5 +1,8 @@
 ﻿namespace PlatformService.Services
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using PlatformService.Models;
 
     public interface IPlatformsService

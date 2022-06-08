@@ -1,5 +1,12 @@
 ﻿namespace CommandService
 {
+    using System;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
     public static class Program
     {
         private static string sqlServerConnectionString = string.Empty;
