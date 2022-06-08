@@ -26,6 +26,23 @@ spec:
       containers:
         - name: platformservice
           image: pirocorp/workshop-platformservice:latest
+---
+apiVersion: v1
+# An abstract way to expose an application running on a set of Pods as a network service.
+kind: Service
+# Service name and other metadata
+metadata:
+  name: platforms-clusterip-srv
+spec:
+  # Exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable from within the cluster. This is the default ServiceType
+  type: ClusterIP
+  selector:
+    app: platformservice
+  ports:
+  - name: platforms-clusterip-srv-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
 ```
 
 
