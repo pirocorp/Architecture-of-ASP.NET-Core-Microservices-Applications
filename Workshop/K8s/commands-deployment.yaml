@@ -7,37 +7,37 @@ apiVersion: apps/v1
 kind: Deployment
 # Deployment name and other metadata
 metadata: 
-  name: platforms-deployment
+  name: commands-deployment
 spec:
   # The desired pod quantity
   replicas: 1
   # For which pods is this deployment
   selector: 
     matchLabels:
-      app: platformservice
+      app: commandservice
   # "Hidden" pod specification
   template:
     metadata:
       labels:
-        app: platformservice
+        app: commandservice
     spec:
       containers:
-        - name: platformservice
-          image: pirocorp/workshop-platformservice:latest
+        - name: commandservice
+          image: pirocorp/workshop-commandservice:latest
 ---
 apiVersion: v1
 # An abstract way to expose an application running on a set of Pods as a network service.
 kind: Service
 # Service name and other metadata
 metadata:
-  name: platforms-clusterip-srv
+  name: commands-clusterip-srv
 spec:
   # Exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable from within the cluster. This is the default ServiceType
   type: ClusterIP
   selector:
-    app: platformservice
+    app: commandservice
   ports:
-  - name: platforms-clusterip-srv-port
+  - name: commands-clusterip-srv-port
     protocol: TCP
     port: 80
     targetPort: 80
