@@ -160,7 +160,7 @@ services.AddDbContext<CommandDbContext>(options =>
 
 # Create migrations
 
-In order to create migrations use this connection string "Server=commands-mssql-clusterip-srv,1444;Initial Catalog=CommandServiceDb;User Id=sa;Password=Secur1ty!;"
+In order to create migrations use this connection string `"Server=commands-mssql-clusterip-srv,1444;Initial Catalog=CommandServiceDb;User Id=sa;Password=Secur1ty!;"`
 
 Run the following command to create migrations
 
