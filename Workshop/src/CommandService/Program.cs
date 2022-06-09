@@ -5,7 +5,10 @@
     using CommandService.Data;
     using CommandService.Services;
 
+    using Common.Infrastructure.Extensions;
+
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -13,12 +16,14 @@
 
     public static class Program
     {
+        private static string sqlServerConnectionString = string.Empty;
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             ConfigureConfiguration(builder.Configuration);
-            ConfigureServices(builder.Services);
+            ConfigureServices(builder.Services, builder.Environment);
 
             var app = builder.Build();
 
@@ -30,14 +35,25 @@
 
         private static void ConfigureConfiguration(IConfiguration configuration)
         {
+            sqlServerConnectionString = configuration.GetConnectionString("CommandsConnection");
         }
 
-        private static void ConfigureServices(IServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services, IHostEnvironment env)
         {
-            services.AddDbContext<CommandDbContext>(options =>
+            if (env.IsProduction())
             {
-                options.UseInMemoryDatabase("In Memory");
-            });
+                services.AddDbContext<CommandDbContext>(options =>
+                {
+                    options.UseSqlServer(sqlServerConnectionString);
+                });
+            }
+            else
+            {
+                services.AddDbContext<CommandDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("In Memory");
+                });
+            }
 
             services.AddControllers();
 
@@ -52,6 +68,8 @@
 
         private static void ConfigureMiddleware(WebApplication app, IServiceProvider services)
         {
+            app.UseDatabaseMigrations<CommandDbContext>();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -62,7 +80,7 @@
             app.UseAuthorization();
         }
 
-        private static void ConfigureEndpoints(WebApplication app, IServiceProvider services)
+        private static void ConfigureEndpoints(IEndpointRouteBuilder app, IServiceProvider services)
         {
             app.MapControllers();
         }

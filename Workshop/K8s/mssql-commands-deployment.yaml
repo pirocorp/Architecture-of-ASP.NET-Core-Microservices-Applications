@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: commands-mssql-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: commands-mssql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: commands-mssql
+  template:
+    metadata:
+      labels:
+        app: commands-mssql
+    spec:
+      containers:
+        - name: commands-mssql
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          ports:
+            - containerPort: 1433
+          env:
+          - name: MSSQL_PID
+            value: "Express"
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: SA_PASSWORD
+            valueFrom:
+              secretKeyRef: 
+                name: commands-mssql-secret
+                key: SA_PASSWORD
+          volumeMounts:
+          - mountPath: /var/opt/mssql/data
+            name: mssqldb
+      volumes:
+      - name: mssqldb
+        persistentVolumeClaim: 
+          claimName: commands-mssql-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: commands-mssql-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: commands-mssql
+  ports:
+  - name: commands-mssql-clusterip-port
+    protocol: TCP
+    port: 1433
+    targetPort: 1433
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: commands-mssql-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: commands-mssql
+  ports:
+  - name: commands-mssql-loadbalancer-port
+    protocol: TCP
+    port: 1444
+    targetPort: 1433

@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{D54FCAC5-980
 		..\K8s\commands-deployment.yaml = ..\K8s\commands-deployment.yaml
 		..\K8s\ingress-srv.yaml = ..\K8s\ingress-srv.yaml
 		..\K8s\local-pvc.yaml = ..\K8s\local-pvc.yaml
+		..\K8s\mssql-commands-deployment.yaml = ..\K8s\mssql-commands-deployment.yaml
 		..\K8s\mssql-platform-deployment.yaml = ..\K8s\mssql-platform-deployment.yaml
 		..\K8s\platforms-deployment.yaml = ..\K8s\platforms-deployment.yaml
 		..\K8s\platforms-np-srv.yaml = ..\K8s\platforms-np-srv.yaml

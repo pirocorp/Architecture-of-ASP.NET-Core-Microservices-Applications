@@ -24,6 +24,14 @@ spec:
       containers:
         - name: commandservice
           image: pirocorp/workshop-commandservice:latest
+          env:
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef: 
+                  name: commands-mssql-secret
+                  key: SA_PASSWORD
+            - name: ConnectionStrings__CommandsConnection
+              value: Server=commands-mssql-clusterip-srv,1433;Initial Catalog=CommandServiceDb;User Id=sa;Password=$(SA_PASSWORD);
 ---
 apiVersion: v1
 # An abstract way to expose an application running on a set of Pods as a network service.
