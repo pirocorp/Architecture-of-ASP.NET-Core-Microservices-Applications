@@ -37,6 +37,11 @@
 ![image](https://user-images.githubusercontent.com/34960418/172049082-36d5a4a2-9654-4ac0-aa4f-28920917f757.png)
 
 
+## Working with Command Resources
+
+![image](https://user-images.githubusercontent.com/34960418/172816418-139918e4-d532-4074-a2b5-aef22d949ef2.png)
+
+
 ## Guides
 
 - [Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
