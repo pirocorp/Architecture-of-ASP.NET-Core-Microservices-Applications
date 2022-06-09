@@ -37,6 +37,11 @@
 ![image](https://user-images.githubusercontent.com/34960418/172049082-36d5a4a2-9654-4ac0-aa4f-28920917f757.png)
 
 
+## Working with Command Resources
+
+![image](https://user-images.githubusercontent.com/34960418/172816418-139918e4-d532-4074-a2b5-aef22d949ef2.png)
+
+
 ## Guides
 
 - [Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
@@ -45,3 +50,5 @@
 - [Run Command Service in Kubernetes](Guides/Run%20Command%20Service%20in%20Kubernetes.md)
 - [Deploy nginx Ingress Load Balancer](Guides/Deploy%20nginx%20Ingress%20Load%20Balancer.md)
 - [Deploying MSSQL to Kubernetes](Guides/Deploying%20MSSQL%20to%20Kubernetes.md)
+- [Update Platform Service To Use MSSQL In Kubernetes](Guides/Update%20Platform%20Service%20To%20Use%20MSSQL%20In%20Kubernetes.md)
+- [Deploy Another MSSQL instance to Kubernetes for Command Service](Guides/Deploy%20Another%20MSSQL%20instance%20to%20Kubernetes%20for%20Command%20Service.md)
