@@ -37,7 +37,7 @@
                 new () { Name = "Kubernetes", Publisher = "Cloud Native Computing Foundation", Cost = "Free" },
             };
 
-            dbContext.Platforms.AddRange(platforms);
+            dbContext.AddRange(platforms);
             dbContext.SaveChanges();
         }
     }

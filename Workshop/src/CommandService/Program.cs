@@ -2,7 +2,11 @@
 {
     using System;
 
+    using CommandService.Data;
+    using CommandService.Services;
+
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -30,7 +34,17 @@
 
         private static void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CommandDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("In Memory");
+            });
+
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddTransient<ICommandsService, CommandsService>();
+            services.AddTransient<IPlatformsService, PlatformsService>();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

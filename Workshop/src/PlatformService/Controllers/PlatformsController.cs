@@ -13,6 +13,8 @@
     using PlatformService.Services;
     using PlatformService.Services.SyncDataServices.Http;
 
+    using static PlatformService.Infrastructure.ApiConstants;
+
     public class PlatformsController : ApiController
     {
         private readonly IPlatformsService platformService;
@@ -30,9 +32,9 @@
         public async Task<ActionResult<IEnumerable<PlatformRead>>> GetPlatforms()
             => (await this.platformService.GetAllPlatforms()).ToList();
 
-        [HttpGet("{id:int}", Name = nameof(GetPlatform))]
+        [HttpGet(WithId, Name = nameof(GetPlatform))]
         public async Task<ActionResult<PlatformRead>> GetPlatform(int id)
-            => this.ReturnOkOrNotFound(await this.platformService.GetPlatformById(id));
+            => this.OkOrNotFound(await this.platformService.GetPlatformById(id));
 
         [HttpPost]
         public async Task<ActionResult<PlatformRead>> CreatePlatform(PlatformCreate model)

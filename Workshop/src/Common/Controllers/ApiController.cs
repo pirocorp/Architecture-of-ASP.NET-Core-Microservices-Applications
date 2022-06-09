@@ -6,7 +6,7 @@
     [Route("api/[controller]")]
     public abstract class ApiController : ControllerBase
     {
-        protected ActionResult<T> ReturnOkOrNotFound<T>(T? result)
+        protected ActionResult<T> OkOrNotFound<T>(T? result)
             => result ?? (ActionResult<T>)this.NotFound(result);
     }
 }

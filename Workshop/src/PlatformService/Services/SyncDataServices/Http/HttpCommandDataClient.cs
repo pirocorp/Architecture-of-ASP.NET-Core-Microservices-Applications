@@ -6,7 +6,7 @@
     using System.Text.Json;
     using System.Threading.Tasks;
 
-    using Common.Infrastructure;
+    using Common.Infrastructure.HTTP;
 
     using Microsoft.Extensions.Options;
 
