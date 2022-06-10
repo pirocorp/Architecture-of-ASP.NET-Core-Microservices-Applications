@@ -19,7 +19,7 @@
 
 ## Solution Architecture
 
-![image](https://user-images.githubusercontent.com/34960418/173058671-cb941e3b-5ed8-43e7-8ca0-0050f3f23929.png)
+![image](https://user-images.githubusercontent.com/34960418/173058858-1b660367-8e88-49b9-8f78-2a54e2ddd13c.png)
 
 
 ## Platform Service Architecture
