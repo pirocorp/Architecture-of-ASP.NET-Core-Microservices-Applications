@@ -2,6 +2,7 @@
 {
     using System;
 
+    using Common.Infrastructure.ConfigurationOptions;
     using Common.Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Builder;
@@ -23,6 +24,8 @@
 
         private static IConfigurationSection? commandServiceOptions;
 
+        private static IConfigurationSection? rabbitMqOptions;
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -40,15 +43,20 @@
 
         private static void ConfigureConfiguration(IConfiguration configuration)
         {
-            sqlServerConnectionString = configuration.GetConnectionString("PlatformsConnection");
+            sqlServerConnectionString = configuration
+                .GetConnectionString("PlatformsConnection");
 
             commandServiceOptions = configuration
                 .GetSection(CommandServiceOptions.CommandService);
+
+            rabbitMqOptions = configuration
+                .GetSection(RabbitMqOptions.RabbitMq);
         }
 
         private static void ConfigureServices(IServiceCollection services, IHostEnvironment env)
         {
             services.Configure<CommandServiceOptions>(commandServiceOptions);
+            services.Configure<RabbitMqOptions>(rabbitMqOptions);
 
             if (env.IsProduction())
             {

@@ -5,9 +5,11 @@
     using System.Threading.Tasks;
 
     using AutoMapper;
+
     using CommandService.Data;
+    using CommandService.Data.Models;
     using CommandService.Models;
-    using Data.Models;
+
     using Microsoft.EntityFrameworkCore;
 
     public class CommandsService : ICommandsService

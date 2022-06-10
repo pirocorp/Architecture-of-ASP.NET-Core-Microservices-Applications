@@ -4,7 +4,7 @@
 
     using CommandService.Data;
     using CommandService.Services;
-
+    using Common.Infrastructure.ConfigurationOptions;
     using Common.Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Builder;
@@ -17,6 +17,8 @@
     public static class Program
     {
         private static string sqlServerConnectionString = string.Empty;
+
+        private static IConfigurationSection? rabbitMqOptions;
 
         public static void Main(string[] args)
         {
@@ -36,10 +38,14 @@
         private static void ConfigureConfiguration(IConfiguration configuration)
         {
             sqlServerConnectionString = configuration.GetConnectionString("CommandsConnection");
+
+            rabbitMqOptions = configuration.GetSection(RabbitMqOptions.RabbitMq);
         }
 
         private static void ConfigureServices(IServiceCollection services, IHostEnvironment env)
         {
+            services.Configure<RabbitMqOptions>(rabbitMqOptions);
+
             if (env.IsProduction())
             {
                 services.AddDbContext<CommandDbContext>(options =>
