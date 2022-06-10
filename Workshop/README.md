@@ -54,6 +54,11 @@
 ![image](https://user-images.githubusercontent.com/34960418/173060239-7410db3d-124d-41a5-a404-a904095ba0cf.png)
 
 
+## Topic Exchange
+
+![image](https://user-images.githubusercontent.com/34960418/173060583-46f4f3a0-cf9b-4cbf-9888-7247c46f75f5.png)
+
+
 ## Guides
 
 - [Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
