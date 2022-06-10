@@ -127,5 +127,8 @@ services.Configure<RabbitMqOptions>(rabbitMqOptions);
 Where RabbitMQ needs configuration, inject the following type:
 
 ```csharp
-IOptions<RabbitMqOptions>
+public Service(IOptions<RabbitMqOptions> rabitMqOptions) 
+{
+  this.rabitMqOptions = rabitMqOptions;
+}
 ```
