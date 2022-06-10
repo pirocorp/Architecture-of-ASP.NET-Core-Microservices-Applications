@@ -1,3 +1,4 @@
 # Architecture of ASP.NET Microservices Applications
 
-[Workshop](Workshop)
+- [Workshop](Workshop)
+- [Demo](Demo)
