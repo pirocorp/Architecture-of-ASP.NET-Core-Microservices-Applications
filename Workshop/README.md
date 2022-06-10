@@ -69,3 +69,4 @@
 - [Deploying MSSQL to Kubernetes](Guides/Deploying%20MSSQL%20to%20Kubernetes.md)
 - [Update Platform Service To Use MSSQL In Kubernetes](Guides/Update%20Platform%20Service%20To%20Use%20MSSQL%20In%20Kubernetes.md)
 - [Deploy Another MSSQL instance to Kubernetes for Command Service](Guides/Deploy%20Another%20MSSQL%20instance%20to%20Kubernetes%20for%20Command%20Service.md)
+- [Deploy RabbitMQ to Kubernetes](Guides/Deploy%20RabbitMQ%20to%20Kubernetes.md)
