@@ -56,7 +56,7 @@
 
 ## Topic Exchange
 
-![image](https://user-images.githubusercontent.com/34960418/173060583-46f4f3a0-cf9b-4cbf-9888-7247c46f75f5.png)
+![image](https://user-images.githubusercontent.com/34960418/173060843-f20d0c3d-8eb0-47f2-acac-ff71aa30c687.png)
 
 
 ## Guides
