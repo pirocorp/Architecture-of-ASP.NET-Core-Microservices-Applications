@@ -42,6 +42,18 @@
 ![image](https://user-images.githubusercontent.com/34960418/172816418-139918e4-d532-4074-a2b5-aef22d949ef2.png)
 
 
+# Rabbit MQ Exchange Types
+
+## Direct Exchange
+
+![image](https://user-images.githubusercontent.com/34960418/173060025-b269de55-e5f8-4f2e-a9ff-fb5cc38c4030.png)
+
+
+## Fanout Exchange
+
+![image](https://user-images.githubusercontent.com/34960418/173060239-7410db3d-124d-41a5-a404-a904095ba0cf.png)
+
+
 ## Guides
 
 - [Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
