@@ -117,15 +117,15 @@ public class RabbitMqOptions
 }
 ```
 
-In startup/program file add the following code
+In the startup/program file, add the following code:
 
 ```csharp
 IConfigurationSection rabbitMqOptions = configuration.GetSection(RabbitMqOptions.RabbitMq);
 services.Configure<RabbitMqOptions>(rabbitMqOptions);
 ```
 
-Where rabbitMq configuration is needed use dependency injection with:
+Where RabbitMQ needs configuration, inject the following type:
 
 ```csharp
-IOptions<RabbitMqOptions> rabbitMqOptions
+IOptions<RabbitMqOptions>
 ```
