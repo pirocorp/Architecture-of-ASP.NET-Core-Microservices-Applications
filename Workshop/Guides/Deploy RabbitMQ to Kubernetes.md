@@ -83,3 +83,49 @@ Open `http://localhost:15672/`. Use the default username: `guest` and password: 
 
 ![image](https://user-images.githubusercontent.com/34960418/173069897-8691b19e-37ed-4806-8c49-ae01f2132b51.png)
 
+
+# Configure PlatformService and CommandService to use RabbitMQ
+
+In `appsettings.Development.json`, add the following code:
+
+```json
+"RabbitMQ": {
+  "Host": "localhost",
+  "Port":  5672
+}
+```
+
+In `appsettings.Production.json` host will be the name of RabbitMQ's ClusterIP service. 
+
+```json
+"RabbitMQ": {
+  "Host": "rabbitmq-clusterip-srv",
+  "Port": 5672
+}
+```
+
+Add configuration object class `RabbitMqOptions`.
+
+```csharp
+public class RabbitMqOptions
+{
+    public const string RabbitMq = "RabbitMQ";
+
+    public string Host { get; set; } = string.Empty;
+
+    public int Port { get; set; }
+}
+```
+
+In startup/program file add the following code
+
+```csharp
+IConfigurationSection rabbitMqOptions = configuration.GetSection(RabbitMqOptions.RabbitMq);
+services.Configure<RabbitMqOptions>(rabbitMqOptions);
+```
+
+Where rabbitMq configuration is needed use dependency injection with:
+
+```csharp
+IOptions<RabbitMqOptions> rabbitMqOptions
+```
