@@ -19,7 +19,7 @@
 
 ## Solution Architecture
 
-![image](https://user-images.githubusercontent.com/34960418/171435488-3a7cd4e2-9b90-40a7-817a-a0e434dec06a.png)
+![image](https://user-images.githubusercontent.com/34960418/173058858-1b660367-8e88-49b9-8f78-2a54e2ddd13c.png)
 
 
 ## Platform Service Architecture
@@ -42,6 +42,23 @@
 ![image](https://user-images.githubusercontent.com/34960418/172816418-139918e4-d532-4074-a2b5-aef22d949ef2.png)
 
 
+# Rabbit MQ Exchange Types
+
+## Direct Exchange
+
+![image](https://user-images.githubusercontent.com/34960418/173060025-b269de55-e5f8-4f2e-a9ff-fb5cc38c4030.png)
+
+
+## Fanout Exchange
+
+![image](https://user-images.githubusercontent.com/34960418/173060239-7410db3d-124d-41a5-a404-a904095ba0cf.png)
+
+
+## Topic Exchange
+
+![image](https://user-images.githubusercontent.com/34960418/173060843-f20d0c3d-8eb0-47f2-acac-ff71aa30c687.png)
+
+
 ## Guides
 
 - [Dockerize Platform Service](Guides/Dockerize%20PlatformService.md)
@@ -52,3 +69,4 @@
 - [Deploying MSSQL to Kubernetes](Guides/Deploying%20MSSQL%20to%20Kubernetes.md)
 - [Update Platform Service To Use MSSQL In Kubernetes](Guides/Update%20Platform%20Service%20To%20Use%20MSSQL%20In%20Kubernetes.md)
 - [Deploy Another MSSQL instance to Kubernetes for Command Service](Guides/Deploy%20Another%20MSSQL%20instance%20to%20Kubernetes%20for%20Command%20Service.md)
+- [Deploy RabbitMQ to Kubernetes](Guides/Deploy%20RabbitMQ%20to%20Kubernetes.md)
