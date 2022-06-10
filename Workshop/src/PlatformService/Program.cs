@@ -16,6 +16,7 @@
     using PlatformService.Infrastructure.ConfigurationOptions;
     using PlatformService.Infrastructure.Extensions;
     using PlatformService.Services;
+    using PlatformService.Services.AsyncDataServices;
     using PlatformService.Services.SyncDataServices.Http;
 
     public static class Program
@@ -73,13 +74,12 @@
                 });
             }
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+            services.AddTransient<IPlatformsService, PlatformsService>();
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
             services.AddControllers();
-
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddTransient<IPlatformsService, PlatformsService>();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

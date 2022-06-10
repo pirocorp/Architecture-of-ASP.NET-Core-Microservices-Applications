@@ -12,6 +12,8 @@
             this.CreateMap<Platform, PlatformRead>();
 
             this.CreateMap<PlatformCreate, Platform>();
+
+            this.CreateMap<PlatformRead, PlatformPublished>();
         }
     }
 }
