@@ -9,6 +9,8 @@
     {
         Task<bool> Exists(int platformId);
 
+        Task<bool> ExternalExists(int externalId);
+
         Task<IEnumerable<PlatformRead>> GetAll();
     }
 }

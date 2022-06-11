@@ -1,7 +1,7 @@
 ﻿namespace PlatformService.Infrastructure
 {
     using AutoMapper;
-
+    using Common.Messages;
     using PlatformService.Data.Models;
     using PlatformService.Models;
 

@@ -27,6 +27,9 @@
         public async Task<bool> Exists(int platformId)
             => await this.context.Platforms.AnyAsync(p => p.Id == platformId);
 
+        public async Task<bool> ExternalExists(int externalId)
+            => await this.context.Platforms.AnyAsync(p => p.ExternalId == externalId);
+
         public async Task<IEnumerable<PlatformRead>> GetAll()
             => await this.context.Platforms
                 .Select(p => this.mapper.Map<PlatformRead>(p))

@@ -1,6 +1,6 @@
 ﻿namespace PlatformService.Services.AsyncDataServices
 {
-    using PlatformService.Models;
+    using Common.Messages;
 
     public interface IMessageBusClient
     {

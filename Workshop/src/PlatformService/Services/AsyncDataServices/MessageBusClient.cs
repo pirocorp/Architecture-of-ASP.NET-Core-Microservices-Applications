@@ -5,10 +5,10 @@
     using System.Text.Json;
 
     using Common.Infrastructure.ConfigurationOptions;
+    using Common.Messages;
 
     using Microsoft.Extensions.Options;
 
-    using PlatformService.Models;
     using RabbitMQ.Client;
 
     public class MessageBusClient : IMessageBusClient, IDisposable
