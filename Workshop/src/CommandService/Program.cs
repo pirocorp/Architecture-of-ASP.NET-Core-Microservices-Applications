@@ -14,6 +14,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
+    using static Common.Infrastructure.ApiConstants;
+
     public static class Program
     {
         private static string sqlServerConnectionString = string.Empty;
@@ -80,6 +82,11 @@
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseExceptionHandler(DevelopmentErrorRoute);
+            }
+            else
+            {
+                app.UseExceptionHandler(ProductionErrorRoute);
             }
 
             // app.UseHttpsRedirection();

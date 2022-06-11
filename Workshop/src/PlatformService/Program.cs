@@ -19,6 +19,8 @@
     using PlatformService.Services.AsyncDataServices;
     using PlatformService.Services.SyncDataServices.Http;
 
+    using static Common.Infrastructure.ApiConstants;
+
     public static class Program
     {
         private static string sqlServerConnectionString = string.Empty;
@@ -94,6 +96,11 @@
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseExceptionHandler(DevelopmentErrorRoute);
+            }
+            else
+            {
+                app.UseExceptionHandler(ProductionErrorRoute);
             }
 
             // app.UseHttpsRedirection();
