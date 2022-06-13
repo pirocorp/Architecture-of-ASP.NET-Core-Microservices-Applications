@@ -7,7 +7,10 @@
     using AutoMapper;
 
     using CommandService.Data;
+    using CommandService.Data.Models;
     using CommandService.Models;
+
+    using Common.Messages;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -34,5 +37,15 @@
             => await this.context.Platforms
                 .Select(p => this.mapper.Map<PlatformRead>(p))
                 .ToListAsync();
+
+        public async Task<PlatformRead> CreatePlatform(PlatformPublished model)
+        {
+            var platform = this.mapper.Map<Platform>(model);
+
+            await this.context.Platforms.AddAsync(platform);
+            await this.context.SaveChangesAsync();
+
+            return this.mapper.Map<PlatformRead>(platform);
+        }
     }
 }
