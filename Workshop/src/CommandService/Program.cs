@@ -3,7 +3,9 @@
     using System;
 
     using CommandService.Data;
+    using CommandService.EventProcessing;
     using CommandService.Services;
+
     using Common.Infrastructure.ConfigurationOptions;
     using Common.Infrastructure.Extensions;
 
@@ -13,7 +15,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
+    using Services.AsyncDataServices;
     using static Common.Infrastructure.ApiConstants;
 
     public static class Program
@@ -69,6 +71,9 @@
 
             services.AddTransient<ICommandsService, CommandsService>();
             services.AddTransient<IPlatformsService, PlatformsService>();
+            services.AddSingleton<IEventProcessor, EventProcessor>();
+
+            services.AddHostedService<MessageBusSubscriber>();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

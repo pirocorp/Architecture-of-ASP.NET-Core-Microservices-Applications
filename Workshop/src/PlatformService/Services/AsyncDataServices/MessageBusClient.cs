@@ -11,10 +11,10 @@
 
     using RabbitMQ.Client;
 
+    using static Common.Messages.MessagesConstants;
+
     public class MessageBusClient : IMessageBusClient, IDisposable
     {
-        private const string ExchangeName = "trigger";
-
         private readonly IConnection connection;
         private readonly IModel channel;
 

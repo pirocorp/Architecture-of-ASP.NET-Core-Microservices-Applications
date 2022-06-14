@@ -19,7 +19,10 @@
             this.CreateMap<PlatformPublished, Platform>()
                 .ForMember(
                     d => d.ExternalId,
-                    opt => opt.MapFrom(s => s.Id));
+                    opt => opt.MapFrom(s => s.Id))
+                .ForMember(
+                    d => d.Id,
+                    opt => opt.MapFrom(s => default(int)));
         }
     }
 }
