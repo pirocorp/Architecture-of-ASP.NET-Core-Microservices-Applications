@@ -4,23 +4,28 @@
 
     using CommandService.Data;
     using CommandService.EventProcessing;
+    using CommandService.Infrastructure.ConfigurationOptions;
     using CommandService.Services;
+    using CommandService.Services.AsyncDataServices;
+    using CommandService.Services.SyncDataServices.Grpc;
 
     using Common.Infrastructure.ConfigurationOptions;
     using Common.Infrastructure.Extensions;
-
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Services.AsyncDataServices;
+
     using static Common.Infrastructure.ApiConstants;
 
     public static class Program
     {
         private static string sqlServerConnectionString = string.Empty;
+
+        private static IConfigurationSection? grpcOptions;
 
         private static IConfigurationSection? rabbitMqOptions;
 
@@ -43,12 +48,15 @@
         {
             sqlServerConnectionString = configuration.GetConnectionString("CommandsConnection");
 
+            grpcOptions = configuration.GetSection(GrpcOptions.Grpc);
+
             rabbitMqOptions = configuration.GetSection(RabbitMqOptions.RabbitMq);
         }
 
         private static void ConfigureServices(IServiceCollection services, IHostEnvironment env)
         {
             services.Configure<RabbitMqOptions>(rabbitMqOptions);
+            services.Configure<GrpcOptions>(grpcOptions);
 
             if (env.IsProduction())
             {
@@ -71,6 +79,7 @@
 
             services.AddTransient<ICommandsService, CommandsService>();
             services.AddTransient<IPlatformsService, PlatformsService>();
+            services.AddTransient<IPlatformDataClient, PlatformDataClient>();
             services.AddSingleton<IEventProcessor, EventProcessor>();
 
             services.AddHostedService<MessageBusSubscriber>();
@@ -82,6 +91,7 @@
         private static void ConfigureMiddleware(WebApplication app, IServiceProvider services)
         {
             app.UseDatabaseMigrations<CommandDbContext>();
+            app.SyncData();
 
             if (app.Environment.IsDevelopment())
             {

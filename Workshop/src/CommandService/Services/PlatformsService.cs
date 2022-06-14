@@ -39,9 +39,10 @@
                 .ToListAsync();
 
         public async Task<PlatformRead> CreatePlatform(PlatformPublished model)
-        {
-            var platform = this.mapper.Map<Platform>(model);
+            => await this.CreatePlatform(this.mapper.Map<Platform>(model));
 
+        public async Task<PlatformRead> CreatePlatform(Platform platform)
+        {
             await this.context.Platforms.AddAsync(platform);
             await this.context.SaveChangesAsync();
 

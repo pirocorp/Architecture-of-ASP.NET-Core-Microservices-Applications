@@ -7,6 +7,6 @@
     public abstract class ApiController : ControllerBase
     {
         protected ActionResult<T> OkOrNotFound<T>(T? result)
-            => result ?? (ActionResult<T>)this.NotFound(result);
+            => result ?? (ActionResult<T>)this.NotFound();
     }
 }

@@ -6,6 +6,7 @@
     using CommandService.Models;
 
     using Common.Messages;
+    using Common.Protos;
 
     public class MappingProfile : Profile
     {
@@ -23,6 +24,14 @@
                 .ForMember(
                     d => d.Id,
                     opt => opt.MapFrom(s => default(int)));
+
+            this.CreateMap<GrpcPlatformModel, Platform>()
+                .ForMember(
+                    d => d.ExternalId,
+                    opt => opt.MapFrom(s => s.PlatformId))
+                .ForMember(
+                    d => d.Commands,
+                    opt => opt.Ignore());
         }
     }
 }
