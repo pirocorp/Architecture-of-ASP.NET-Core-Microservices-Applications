@@ -39,7 +39,7 @@
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlatformRead>>> GetPlatforms()
-            => (await this.platformService.GetAllPlatforms()).ToList();
+            => (await this.platformService.GetAllPlatforms<PlatformRead>()).ToList();
 
         [HttpGet(WithId, Name = nameof(GetPlatform))]
         public async Task<ActionResult<PlatformRead>> GetPlatform(int id)

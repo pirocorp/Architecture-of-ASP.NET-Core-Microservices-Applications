@@ -25,9 +25,9 @@
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<PlatformRead>> GetAllPlatforms()
+        public async Task<IEnumerable<T>> GetAllPlatforms<T>()
             => await this.dbContext.Platforms
-                .Select(p => this.mapper.Map<PlatformRead>(p))
+                .Select(p => this.mapper.Map<T>(p))
                 .ToListAsync();
 
         public async Task<PlatformRead?> GetPlatformById(int id)

@@ -6,6 +6,7 @@
     using Common.Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@
     using PlatformService.Infrastructure.Extensions;
     using PlatformService.Services;
     using PlatformService.Services.AsyncDataServices;
+    using PlatformService.Services.SyncDataServices.Grpc;
     using PlatformService.Services.SyncDataServices.Http;
 
     using static Common.Infrastructure.ApiConstants;
@@ -38,8 +40,8 @@
 
             var app = builder.Build();
 
-            ConfigureMiddleware(app, app.Services);
-            ConfigureEndpoints(app, app.Services);
+            ConfigureMiddleware(app);
+            ConfigureEndpoints(app);
 
             app.Run();
         }
@@ -77,9 +79,12 @@
             }
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
             services.AddTransient<IPlatformsService, PlatformsService>();
             services.AddSingleton<IMessageBusClient, MessageBusClient>();
+
+            services.AddGrpc();
 
             services.AddControllers();
 
@@ -87,7 +92,7 @@
             services.AddSwaggerGen();
         }
 
-        private static void ConfigureMiddleware(WebApplication app, IServiceProvider services)
+        private static void ConfigureMiddleware(WebApplication app)
         {
             app.UseDatabaseMigrations<PlatformDbContext>();
             app.SeedDatabase();
@@ -107,9 +112,11 @@
             app.UseAuthorization();
         }
 
-        private static void ConfigureEndpoints(IEndpointRouteBuilder app, IServiceProvider services)
+        private static void ConfigureEndpoints(WebApplication app)
         {
             app.MapControllers();
+            app.MapGrpcService<GrpcPlatformService>();
+            app.PlatformsProtoFileEndpoint();
         }
     }
 }

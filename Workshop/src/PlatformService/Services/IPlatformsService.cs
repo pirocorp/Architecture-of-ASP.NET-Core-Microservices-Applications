@@ -7,7 +7,7 @@
 
     public interface IPlatformsService
     {
-        Task<IEnumerable<PlatformRead>> GetAllPlatforms();
+        Task<IEnumerable<T>> GetAllPlatforms<T>();
 
         Task<PlatformRead?> GetPlatformById(int id);
 
