@@ -43,6 +43,10 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
+  - name: platforms-grpc-port
+    protocol: TCP
+    port: 555
+    targetPort: 555
 ```
 
 
