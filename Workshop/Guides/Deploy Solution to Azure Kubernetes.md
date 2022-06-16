@@ -1,5 +1,7 @@
 ## Load Balancer vs Ingress
 
+> Ingress Controller Services are often provisioned as LoadBalancer type, so that http and https requests can be proxied / routed to specific internal services through an external ip.
+
 Coming to your query Ingress-nginx is not a load balancer but on a broader lever can help you with load balancing.
 
 But there are two things-
