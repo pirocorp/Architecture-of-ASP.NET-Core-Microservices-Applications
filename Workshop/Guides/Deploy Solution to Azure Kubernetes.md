@@ -30,12 +30,14 @@ https://kubernetes.io/docs/concepts/services-networking/ingress/
 
 For multiple hosts if the cluster uses Kubernetes version >= 1.19.x, then its suggested to create 2 ingress resources, using yaml examples shown below. These examples are in conformity with the `networking.kubernetes.io/v1` api.
 
+- [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
 - [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-- [Create an ingress controller in Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/ingress-basic?tabs=azure-cli)
-- [NGINX Ingress Controller Basic usage Host Based Routing](https://kubernetes.github.io/ingress-nginx/user-guide/basic-usage/)
 - [Is ingress-nginx a load balancer or not?](https://docs.microsoft.com/en-us/answers/questions/295210/is-ingress-nginx-is-really-a-load-balancer-or-not.html)
 - [Ingress vs Load Balancer](https://stackoverflow.com/questions/45079988/ingress-vs-load-balancer#:~:text=Ingress%20Controller%20Services%20are%20often,not%20strictly%20needed%20for%20this.)
+- [Create an ingress controller in Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/ingress-basic?tabs=azure-cli)
+- [NGINX Ingress Controller Basic usage Host Based Routing](https://kubernetes.github.io/ingress-nginx/user-guide/basic-usage/)
 - [What is Application Gateway Ingress Controller?](https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-overview)
+- [Application Gateway Ingress Controller for Azure Kubernetes Service](https://azure.microsoft.com/en-au/blog/application-gateway-ingress-controller-for-azure-kubernetes-service/)
 - [Enable the Ingress Controller add-on for a new AKS cluster with a new Application Gateway instance](https://docs.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-new)
 - [Network concepts for applications in Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/concepts-network#ingress-controllers)
 
