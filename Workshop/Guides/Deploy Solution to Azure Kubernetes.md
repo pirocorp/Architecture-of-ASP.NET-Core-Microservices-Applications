@@ -41,4 +41,4 @@ For multiple hosts if the cluster uses Kubernetes version >= 1.19.x, then its su
 - [Enable the Ingress Controller add-on for a new AKS cluster with a new Application Gateway instance](https://docs.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-new)
 - [Network concepts for applications in Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/concepts-network#ingress-controllers)
 - [Overview of TLS termination and end to end TLS with Application Gateway](https://docs.microsoft.com/en-us/azure/application-gateway/ssl-overview)
-
+- [AKS with Cert Manager](https://medium.com/geekculture/aks-with-cert-manager-f24786e87b20)
