@@ -26,7 +26,7 @@ https://github.com/kubernetes/ingress-nginx
 https://kubernetes.io/docs/concepts/services-networking/ingress/
 
 
-## NGINX Ingress Controller Basic usage Host Based Routing
+## [NGINX Ingress Controller Basic usage Host Based Routing](https://kubernetes.github.io/ingress-nginx/user-guide/basic-usage/)
 
 For multiple hosts if the cluster uses Kubernetes version >= 1.19.x, then its suggested to create 2 ingress resources, using yaml examples shown below. These examples are in conformity with the `networking.kubernetes.io/v1` api.
 
