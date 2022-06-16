@@ -15,11 +15,7 @@ As mentioned [here](https://docs.microsoft.com/en-us/azure/aks/concepts-network#
 > 
 > Ingress controllers work at layer 7, and can use more intelligent rules to distribute application traffic. A common use of an Ingress controller is to route HTTP traffic to different applications based on the inbound URL.
 
-You can refer to [this](https://docs.nginx.com/nginx-ingress-controller/overview/#:~:text=The%20Ingress%20is%20a%20Kubernetes,outside%20of%20the%20Kubernetes%20cluster) as well for more information.
-
 > Either we use path based or host based routing and it always reaches to a specific cluster ip behind which load balancing occurs.
-
-Yes the above statement is correct.
 
 > Because, If it is acting just as a proxy then for any service(especially for gRPC) we can easily replace ingress-nginx and any service mesh with envoy.
 
