@@ -19,10 +19,6 @@ As mentioned [here](https://docs.microsoft.com/en-us/azure/aks/concepts-network#
 
 > Because, If it is acting just as a proxy then for any service(especially for gRPC) we can easily replace ingress-nginx and any service mesh with envoy.
 
-Yes you don't need to have ingress controller in everything to handle GRPC calls but rather than going for envoy you can make use of Azure Load Balancer which is by default created at time of AKS creation and will save you the trouble of implementing envoy.
-
-You can read more about it [here](https://docs.microsoft.com/en-us/azure/aks/load-balancer-standard#:~:text=Azure%20Load%20Balancer%20is%20available,Load%20Balancer%20SKU%20for%20AKS.).
-
 More info here as well:
 
 https://github.com/kubernetes/ingress-nginx
