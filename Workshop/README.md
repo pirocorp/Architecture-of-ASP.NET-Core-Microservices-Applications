@@ -71,3 +71,5 @@
 - [Deploy Another MSSQL instance to Kubernetes for Command Service](Guides/Deploy%20Another%20MSSQL%20instance%20to%20Kubernetes%20for%20Command%20Service.md)
 - [Deploy RabbitMQ to Kubernetes](Guides/Deploy%20RabbitMQ%20to%20Kubernetes.md)
 - [Configure gRPC not to use TLS in Kubernetes](Guides/Configure%20gRPC%20not%20to%20use%20TLS%20in%20Kubernetes.md)
+- [Merge Multiple YAML Files Into One](Guides/Merge%20Multiple%20YAML%20Files%20Into%20One.md)
+- [Clean Up](Guides/Clean%20Up.md)
